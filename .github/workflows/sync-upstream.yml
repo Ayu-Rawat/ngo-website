@@ -9,6 +9,7 @@ on:
 
 permissions:
   contents: write
+  actions: read
 
 jobs:
   sync:
@@ -56,8 +57,12 @@ jobs:
         if: steps.check_sync.outputs.sync_needed == 'true'
         run: |
           git checkout main
-          git reset --hard upstream/main
-          git push origin main --force
+          
+          # Merge upstream changes (safer than reset --hard)
+          git merge upstream/main --no-edit
+          
+          # Push to origin (your fork)
+          git push origin main
 
       - name: Log sync result
         run: |

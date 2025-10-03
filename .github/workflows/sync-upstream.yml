@@ -3,6 +3,9 @@ name: Sync from upstream
 on:
   repository_dispatch:
     types: [upstream-push]
+  
+  # Allow manual triggering from GitHub UI
+  workflow_dispatch:
 
 permissions:
   contents: write

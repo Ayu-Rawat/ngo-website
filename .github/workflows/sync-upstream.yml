@@ -1,0 +1,83 @@
+name: Sync Fork with Upstream
+
+on:
+  # Instant sync when triggered by parent repository
+  repository_dispatch:
+    types: [upstream-push]
+  
+  # Run automatically every day at 2 AM UTC (fallback)
+  schedule:
+    - cron: '0 2 * * *'
+  
+  # Allow manual triggering from GitHub UI
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+      
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      
+      - name: Add upstream remote
+        run: |
+          git remote add upstream https://github.com/change-i-network/Website.git || true
+          git remote set-url upstream https://github.com/change-i-network/Website.git
+      
+      - name: Fetch upstream changes
+        run: |
+          git fetch upstream
+          git fetch origin
+      
+      - name: Check if sync is needed
+        id: check_sync
+        run: |
+          # Get the latest commit from upstream main
+          UPSTREAM_COMMIT=$(git rev-parse upstream/main)
+          # Get the latest commit from origin main
+          ORIGIN_COMMIT=$(git rev-parse origin/main)
+          
+          echo "Upstream commit: $UPSTREAM_COMMIT"
+          echo "Origin commit: $ORIGIN_COMMIT"
+          
+          if [ "$UPSTREAM_COMMIT" != "$ORIGIN_COMMIT" ]; then
+            echo "sync_needed=true" >> $GITHUB_OUTPUT
+            echo "Sync is needed"
+          else
+            echo "sync_needed=false" >> $GITHUB_OUTPUT
+            echo "Fork is already up to date"
+          fi
+      
+      - name: Sync with upstream
+        if: steps.check_sync.outputs.sync_needed == 'true'
+        run: |
+          # Switch to main branch
+          git checkout main
+          
+          # Reset to match upstream main
+          git reset --hard upstream/main
+          
+          # Force push to origin (your fork)
+          git push origin main --force
+      
+      - name: Create summary
+        run: |
+          if [ "${{ steps.check_sync.outputs.sync_needed }}" == "true" ]; then
+            echo "✅ Fork has been synced with upstream repository" >> $GITHUB_STEP_SUMMARY
+            echo "🔄 Latest changes from change-i-network/Website have been pulled" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "ℹ️ Fork is already up to date with upstream repository" >> $GITHUB_STEP_SUMMARY
+          fi

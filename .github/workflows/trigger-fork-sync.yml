@@ -1,0 +1,30 @@
+name: Trigger Fork Sync
+
+on:
+  push:
+    branches: [ main ]
+  
+  # Also trigger on pull request merges
+  pull_request:
+    types: [closed]
+    branches: [ main ]
+
+jobs:
+  trigger-fork-sync:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.merged == true) }}
+    
+    steps:
+      - name: Trigger sync in fork repository
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.FORK_SYNC_TOKEN }}
+          repository: Ayu-Rawat/ngo-website
+          event-type: upstream-push
+          client-payload: |
+            {
+              "ref": "${{ github.ref }}",
+              "sha": "${{ github.sha }}",
+              "repository": "${{ github.repository }}",
+              "pusher": "${{ github.actor }}"
+            }

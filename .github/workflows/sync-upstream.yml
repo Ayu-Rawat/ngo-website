@@ -17,8 +17,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Add upstream remote
-        run: git remote add upstream https://github.com/ORGANIZATION/REPO.git
-        # Replace ORGANIZATION/REPO with the upstream (parent) repo
+        run: git remote add upstream https://github.com/change-i-network/Website.git
 
       - name: Fetch upstream
         run: git fetch upstream main

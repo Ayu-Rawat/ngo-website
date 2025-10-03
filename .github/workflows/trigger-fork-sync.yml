@@ -1,19 +1,13 @@
-name: Trigger Fork Sync
+name: Trigger fork sync
 
 on:
   push:
-    branches: [ main ]
-  
-  # Also trigger on pull request merges
-  pull_request:
-    types: [closed]
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
-  trigger-fork-sync:
+  notify-fork:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.merged == true) }}
-    
     steps:
       - name: Trigger sync in fork repository
         uses: peter-evans/repository-dispatch@v3

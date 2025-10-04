@@ -128,10 +128,18 @@
 .mobileMenuControls {
     display: none;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
+}
+
+.userMenuWrapper {
+    position: relative;
 }
 
 .desktopCta {
+    display: list-item;
+}
+
+.desktopOnly {
     display: list-item;
 }
 
@@ -171,6 +179,10 @@
     }
 
     .desktopCta {
+        display: none;
+    }
+
+    .desktopOnly {
         display: none;
     }
 

@@ -37,7 +37,6 @@ export default function Home() {
               <Image src="/home/6.jpg" alt="Background Image 4" fill style={{objectFit: 'cover', objectPosition: 'center'}} />
             </div>            
           </div>
-
         </div>
       </div>
     </main>

@@ -346,7 +346,7 @@ const DonationForm = () => {
             <span className={styles.donationTypeIcon}>💳</span>
             <div>
               <div className={styles.donationTypeTitle}>One-time</div>
-              <div className={styles.donationTypeDesc}>Make a single donation</div>
+              {/* <div className={styles.donationTypeDesc}>Make a single donation</div> */}
             </div>
           </button>
           <button
@@ -358,7 +358,7 @@ const DonationForm = () => {
             <span className={styles.donationTypeIcon}>🔄</span>
             <div>
               <div className={styles.donationTypeTitle}>Monthly</div>
-              <div className={styles.donationTypeDesc}>Recurring monthly donation</div>
+              {/* <div className={styles.donationTypeDesc}>Recurring monthly donation</div> */}
             </div>
           </button>
         </div>

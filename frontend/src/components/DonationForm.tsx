@@ -325,13 +325,6 @@ const DonationForm = () => {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>
-        Support Connect I Network
-      </h2>
-      
-      <p className={styles.subtitle}>
-        Your donation helps us continue our mission of making a positive impact in Dwarka Mor and surrounding communities.
-      </p>
 
       {/* Donation Type Selection */}
       <div className={styles.donationTypeSection}>

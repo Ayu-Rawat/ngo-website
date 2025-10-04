@@ -3,6 +3,7 @@ import { Roboto } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar/navbar";
 import Script from "next/script";
+import { getCurrentSession } from "@/lib/session";
 
 const roboto = Roboto({
   weight: ["100", "300", "400", "500", "700", "900"],
@@ -17,11 +18,13 @@ export const metadata: Metadata = {
   description: "Connect I Network is an NGO based in Dwarka Mor, dedicated to making a positive impact in the community.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { user } = await getCurrentSession();
+
   return (
     <html lang="en">
       <head>
@@ -31,7 +34,7 @@ export default function RootLayout({
         />
       </head>
       <body className={roboto.className}>
-        <Navbar />
+        <Navbar user={user} />
         {children}
       </body>
     </html>

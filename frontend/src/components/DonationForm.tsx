@@ -119,6 +119,7 @@ const DonationForm = () => {
                 'Content-Type': 'application/json',
               },
               body: JSON.stringify({
+                amount: finalAmount,
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature,

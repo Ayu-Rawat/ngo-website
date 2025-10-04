@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
+import sql from '@/database/db';
 
 export async function POST(request: NextRequest) {
   try {
@@ -7,6 +8,7 @@ export async function POST(request: NextRequest) {
       razorpay_order_id,
       razorpay_payment_id,
       razorpay_signature,
+      amount,
       donorDetails,
     } = await request.json();
 
@@ -40,6 +42,10 @@ export async function POST(request: NextRequest) {
         donor: donorDetails,
         timestamp: new Date().toISOString(),
       });
+
+      const query = `Insert into transactions values ($1,$2,$3,$4,$5,$6)`
+
+      await sql.query(query,[razorpay_order_id,razorpay_payment_id,donorDetails.name,donorDetails.email,new Date().toISOString(),amount])
 
       return NextResponse.json({
         success: true,

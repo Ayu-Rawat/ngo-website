@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import styles from './DonationForm.module.css';
 
 // Extend Window interface to include Razorpay
 declare global {
@@ -162,21 +163,21 @@ const DonationForm = () => {
 
   if (showSuccess) {
     return (
-      <div className="max-w-md mx-auto p-8 bg-green-50 rounded-lg border border-green-200">
-        <div className="text-center">
-          <div className="text-green-600 text-6xl mb-4">✓</div>
-          <h2 className="text-2xl font-bold text-green-800 mb-2">
+      <div className={styles.successContainer}>
+        <div className={styles.successContent}>
+          <div className={styles.successIcon}>✓</div>
+          <h2 className={styles.successTitle}>
             Thank You for Your Donation!
           </h2>
-          <p className="text-green-700 mb-4">
+          <p className={styles.successMessage}>
             Your generous contribution of ₹{getFinalAmount()} will help us make a real difference in the community.
           </p>
-          <p className="text-sm text-green-600 mb-6">
+          <p className={styles.successNote}>
             You will receive a confirmation email shortly.
           </p>
           <button
             onClick={() => setShowSuccess(false)}
-            className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
+            className={styles.anotherDonationButton}
           >
             Make Another Donation
           </button>
@@ -186,90 +187,89 @@ const DonationForm = () => {
   }
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-lg border">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-        Support Connect I Network
+    <div className={styles.container}>
+      <h2 className={styles.title}>
+        Support Change I Network
       </h2>
       
-      <p className="text-gray-600 mb-6 text-center">
+      <p className={styles.subtitle}>
         Your donation helps us continue our mission of making a positive impact in Dwarka Mor and surrounding communities.
       </p>
 
       {/* Amount Selection */}
-      <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-3">
+      <div className={styles.amountSection}>
+        <label className={styles.label}>
           Select Donation Amount
         </label>
-        <div className="grid grid-cols-3 gap-3 mb-4">
+        <div className={styles.amountGrid}>
           {predefinedAmounts.map((amt) => (
             <button
               key={amt}
               onClick={() => handleAmountSelect(amt)}
-              className={`p-3 rounded-lg border transition-colors ${
-                amount === amt.toString()
-                  ? 'border-blue-500 bg-blue-50 text-blue-700'
-                  : 'border-gray-300 hover:border-gray-400'
+              className={`${styles.amountButton} ${
+                amount === amt.toString() ? styles.amountButtonSelected : ''
               }`}
             >
               ₹{amt}
             </button>
           ))}
-        </div>
-        
-        <div className="relative">
-          <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">₹</span>
-          <input
-            type="number"
-            placeholder="Enter custom amount"
-            value={customAmount}
-            onChange={(e) => handleCustomAmountChange(e.target.value)}
-            className="w-full pl-8 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            min="1"
-          />
+          <div className={styles.customAmountContainer}>
+            <span className={styles.currencySymbol}>₹</span>
+            <input
+              type="number"
+              placeholder="Custom"
+              value={customAmount}
+              onChange={(e) => handleCustomAmountChange(e.target.value)}
+              className={styles.input}
+              min="1"
+            />
+          </div>
         </div>
       </div>
 
       {/* Donor Details */}
-      <div className="mb-6 space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+      <div className={styles.detailsSection}>
+        <div className={styles.inputGroup}>
+          <label className={styles.inputGroupLabel}>
             Full Name *
           </label>
           <input
             type="text"
             value={donorDetails.name}
             onChange={(e) => setDonorDetails({ ...donorDetails, name: e.target.value })}
-            className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={styles.textInput}
             placeholder="Enter your full name"
             required
           />
         </div>
         
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Email Address *
-          </label>
-          <input
-            type="email"
-            value={donorDetails.email}
-            onChange={(e) => setDonorDetails({ ...donorDetails, email: e.target.value })}
-            className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter your email"
-            required
-          />
-        </div>
-        
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Phone Number (Optional)
-          </label>
-          <input
-            type="tel"
-            value={donorDetails.phone}
-            onChange={(e) => setDonorDetails({ ...donorDetails, phone: e.target.value })}
-            className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter your phone number"
-          />
+        <div className={styles.inputRow}>
+          <div className={styles.inputGroup}>
+            <label className={styles.inputGroupLabel}>
+              Email Address *
+            </label>
+            <input
+              type="email"
+              value={donorDetails.email}
+              onChange={(e) => setDonorDetails({ ...donorDetails, email: e.target.value })}
+              className={styles.textInput}
+              placeholder="Enter your email"
+              required
+            />
+          </div>
+          
+          <div className={styles.inputGroup}>
+            <label className={styles.inputGroupLabel}>
+              Phone Number (Optional)
+            </label>
+            <input
+              type="tel"
+              value={donorDetails.phone}
+              onChange={(e) => setDonorDetails({ ...donorDetails, phone: e.target.value })}
+              className={styles.textInput}
+              placeholder="Enter your phone number"
+            />
+          </div>
         </div>
       </div>
 
@@ -277,11 +277,11 @@ const DonationForm = () => {
       <button
         onClick={handlePayment}
         disabled={!getFinalAmount() || !donorDetails.name || !donorDetails.email || loading}
-        className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        className={styles.donateButton}
       >
         {loading ? (
-          <div className="flex items-center justify-center">
-            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+          <div className={styles.loadingContainer}>
+            <div className={styles.spinner}></div>
             Processing...
           </div>
         ) : (
@@ -290,7 +290,7 @@ const DonationForm = () => {
       </button>
 
       {/* Security Note */}
-      <p className="text-xs text-gray-500 mt-4 text-center">
+      <p className={styles.securityNote}>
         Secure payment powered by Razorpay. Your payment information is encrypted and secure.
       </p>
     </div>

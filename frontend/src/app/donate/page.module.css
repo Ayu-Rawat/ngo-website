@@ -18,6 +18,40 @@
 }
 
 .content {
+  display: grid;
+  grid-template-columns: 500px 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+@media (max-width: 1200px) {
+  .content {
+    grid-template-columns: 450px 1fr;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 968px) {
+  .content {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
+
+/* Left and Right Columns */
+.leftColumn {
+  position: sticky;
+  top: 100px;
+  align-self: start;
+}
+
+@media (max-width: 968px) {
+  .leftColumn {
+    position: static;
+  }
+}
+
+.rightColumn {
   display: flex;
   flex-direction: column;
   gap: 3rem;
@@ -70,8 +104,21 @@
 .statsGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  margin: 2rem 0;
+  gap: 1.5rem;
+}
+
+@media (max-width: 1200px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 968px) {
+  .statsGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
 }
 
 @media (max-width: 768px) {
@@ -111,11 +158,6 @@
   color: rgba(0, 0, 0, 0.7);
 }
 
-/* Form Section */
-.formSection {
-  margin: 2rem 0;
-}
-
 /* Impact Section */
 .impactSection {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
@@ -146,8 +188,15 @@
 
 .impactGrid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 968px) {
+  .impactGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
 }
 
 @media (max-width: 768px) {
@@ -198,7 +247,6 @@
 /* Contact Section */
 .contact {
   text-align: left;
-  margin-top: 2rem;
 }
 
 .contactText {

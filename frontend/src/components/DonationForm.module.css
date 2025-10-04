@@ -20,6 +20,70 @@
   line-height: 1.5;
 }
 
+/* Donation Type Section */
+.donationTypeSection {
+  margin-bottom: 2rem;
+}
+
+.donationTypeButtons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.donationTypeButton {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.donationTypeButton:hover {
+  border-color: #d1d5db;
+}
+
+.donationTypeButtonSelected {
+  border-color: #3b82f6;
+  background: #eff6ff;
+}
+
+.donationTypeIcon {
+  font-size: 24px;
+}
+
+.donationTypeTitle {
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 4px;
+}
+
+.donationTypeDesc {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.monthlyNote {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: #fef3c7;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #92400e;
+}
+
+.monthlyNoteIcon {
+  font-size: 16px;
+}
+
 /* Amount Selection */
 .amountSection {
   margin-bottom: 2rem;
@@ -66,6 +130,24 @@
   border-color: rgba(92, 176, 125, 1);
   background: linear-gradient(135deg, rgba(215, 255, 168, 0.3) 0%, rgba(92, 176, 125, 0.2) 100%);
   color: black;
+}
+
+.monthlyLabel {
+  display: block;
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 4px;
+  font-weight: normal;
+}
+
+.monthlyLabelCustom {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: normal;
 }
 
 .customAmountContainer {
@@ -275,4 +357,20 @@
   background: linear-gradient(135deg, rgba(225, 255, 178, 1) 0%, rgba(102, 186, 135, 1) 100%);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Subscription Info */
+.subscriptionInfo {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  text-align: left;
+  border: 1px solid #e5e7eb;
+}
+
+.subscriptionInfo p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #374151;
 }

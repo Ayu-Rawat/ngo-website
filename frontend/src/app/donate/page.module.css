@@ -1,8 +1,220 @@
 .main {
-  padding: 2rem;
+  min-height: 100vh;
+  background-color: #f0f0f0;
+  padding: 3rem 1rem;
+  margin-top: 80px;
+}
+
+@media (max-width: 768px) {
+  .main {
+    padding: 2rem 1rem;
+    margin-top: 60px;
+  }
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+/* Header Section */
+.header {
+  text-align: left;
 }
 
 .title {
-  font-size: 2.5rem;
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: black;
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 28px;
+  }
+}
+
+.description {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.6;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+@media (max-width: 768px) {
+  .description {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .description {
+    font-size: 14px;
+  }
+}
+
+/* Stats Grid */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+@media (max-width: 768px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.statCard {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.statNumber {
+  font-size: 36px;
+  font-weight: 700;
+  background: linear-gradient(135deg, rgba(92, 176, 125, 1) 0%, rgba(60, 140, 95, 1) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+}
+
+.statLabel {
+  font-size: 18px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+/* Form Section */
+.formSection {
+  margin: 2rem 0;
+}
+
+/* Impact Section */
+.impactSection {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
+  padding: 3rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .impactSection {
+    padding: 2rem 1.5rem;
+  }
+}
+
+.sectionTitle {
+  font-size: 32px;
+  font-weight: 700;
+  text-align: left;
+  margin-bottom: 2rem;
+  color: black;
+}
+
+@media (max-width: 768px) {
+  .sectionTitle {
+    font-size: 24px;
+  }
+}
+
+.impactGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .impactGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.impactItem {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.iconContainer {
+  background: linear-gradient(135deg, rgba(215, 255, 168, 0.6) 0%, rgba(92, 176, 125, 0.4) 100%);
+  border-radius: 50%;
+  padding: 1rem;
+  min-width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  font-size: 24px;
+}
+
+.impactContent {
+  flex: 1;
+}
+
+.impactTitle {
+  font-size: 18px;
   font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: black;
+}
+
+.impactDescription {
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+/* Contact Section */
+.contact {
+  text-align: left;
+  margin-top: 2rem;
+}
+
+.contactText {
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.7);
+  line-height: 1.8;
+}
+
+.contactLink {
+  color: rgba(92, 176, 125, 1);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.contactLink:hover {
+  text-decoration: underline;
+  color: rgba(60, 140, 95, 1);
 }

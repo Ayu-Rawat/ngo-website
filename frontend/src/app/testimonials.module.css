@@ -1,0 +1,81 @@
+.testimonialsContainer {
+  position: relative;
+  width: calc(100% - 40px);
+  max-width: 1200px;
+  margin: 80px 0;
+  overflow: hidden;
+}
+
+.card {
+  flex: 0 0 auto;
+  width: 280px;
+  margin-right: 30px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.initiative {
+  font-style: italic;
+  font-weight: 500;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.review {
+  font-size: 1rem;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.name {
+  font-weight: 600;
+  color: #000;
+  margin-bottom: 4px;
+}
+
+.role {
+  font-size: 0.875rem;
+  color: #555;
+}
+  
+/* Scroll container and animation */
+.testimonialsScroll {
+  display: flex;
+  margin-bottom: 20px;
+  animation: scroll 20s linear infinite;
+}
+
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+ 
+/* Reverse scroll animation */
+.testimonialsScrollReverse {
+  display: flex;
+  animation: scroll 20s linear infinite reverse;
+}
+
+/* Gradient overlays */
+.testimonialsContainer::before,
+.testimonialsContainer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 25%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.testimonialsContainer::before {
+  left: 0;
+  background: linear-gradient(to right, #f0f0f0, transparent);
+}
+
+.testimonialsContainer::after {
+  right: 0;
+  background: linear-gradient(to left, #f0f0f0, transparent);
+}

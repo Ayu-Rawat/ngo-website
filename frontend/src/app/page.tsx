@@ -1,7 +1,131 @@
 import Link from 'next/link';
 import styles from './page.module.css'
+import testimonialsStyles from './testimonials.module.css'
 import Image from 'next/image';
-import ScrollReveal from '@/components/modules/ScrollReveal/ScrollReveal';
+
+const testimonialText = [
+  {
+    "initiative": "Paathshaala – Learning Today, Leading Tomorrow",
+    "review": "Paathshaala helped my daughter gain confidence in her studies. The volunteers truly care and make learning enjoyable for every child.",
+    "name": "Rekha Sharma",
+    "role": "Parent"
+  },
+  {
+    "initiative": "Paathshaala – Learning Today, Leading Tomorrow",
+    "review": "Teaching at Paathshaala showed me how education can change lives. Seeing parents support their kids’ learning is truly rewarding.",
+    "name": "Ravi Patel",
+    "role": "Volunteer"
+  },
+  {
+    "initiative": "Paryavaran – My Locality, I Care",
+    "review": "Our park has never looked cleaner since Paryavaran started. The initiative brought our community together for a great cause.",
+    "name": "Anita Verma",
+    "role": "Resident"
+  },
+  {
+    "initiative": "Paryavaran – My Locality, I Care",
+    "review": "Volunteering for Paryavaran made me value cleanliness and the environment more. It’s amazing to see so many people take part.",
+    "name": "Arjun Mehra",
+    "role": "Student Volunteer"
+  },
+  {
+    "initiative": "Perfect Health",
+    "review": "The free health camp helped my family get essential checkups. The volunteers were kind and professional throughout.",
+    "name": "Ramesh Kumar",
+    "role": "Beneficiary"
+  },
+  {
+    "initiative": "Perfect Health",
+    "review": "I joined their blood donation drive and learned so much about preventive health. Everything was well-organized and impactful.",
+    "name": "Priya Nair",
+    "role": "Volunteer"
+  },
+  {
+    "initiative": "Pahal – An Initiative",
+    "review": "Performing in Pahal’s street play was unforgettable. It felt great to spread awareness and inspire others.",
+    "name": "Neha Joshi",
+    "role": "Volunteer Performer"
+  },
+  {
+    "initiative": "Pahal – An Initiative",
+    "review": "During the winter drive, the team provided warm clothes and food to many families. Their compassion really touched our hearts.",
+    "name": "Amina Begum",
+    "role": "Beneficiary"
+  },
+  {
+    "initiative": "General Impact",
+    "review": "This NGO’s dedication across education, health, and environment is inspiring. They’re making real changes on the ground.",
+    "name": "Vikas Mehta",
+    "role": "Supporter"
+  },
+  {
+    "initiative": "General Impact",
+    "review": "Volunteering here taught me the power of small actions. The team works with genuine passion and care.",
+    "name": "Shruti Patel",
+    "role": "Volunteer"
+  },
+  {
+    "initiative": "Paathshaala – Learning Today, Leading Tomorrow",
+    "review": "The sessions at Paathshaala made learning easier for my son. He’s now excited to go to school every day.",
+    "name": "Suman Gupta",
+    "role": "Parent"
+  },
+  {
+    "initiative": "Paathshaala – Learning Today, Leading Tomorrow",
+    "review": "I’ve seen children grow in confidence and curiosity here. Paathshaala truly gives them a better start in life.",
+    "name": "Rahul Desai",
+    "role": "Volunteer"
+  },
+  {
+    "initiative": "Paryavaran – My Locality, I Care",
+    "review": "Thanks to Paryavaran, our streets are cleaner and greener. It’s motivating to see everyone take responsibility for their surroundings.",
+    "name": "Manisha Tiwari",
+    "role": "Local Resident"
+  },
+  {
+    "initiative": "Paryavaran – My Locality, I Care",
+    "review": "Joining the weekend clean-up drives was an eye-opener. I now encourage others to keep our area clean too.",
+    "name": "Deepak Sharma",
+    "role": "Volunteer"
+  },
+  {
+    "initiative": "Perfect Health",
+    "review": "The NGO’s health awareness session helped my family understand the importance of regular checkups. It’s a great initiative for our community.",
+    "name": "Lata Singh",
+    "role": "Beneficiary"
+  },
+  {
+    "initiative": "Perfect Health",
+    "review": "I volunteered at the medical camp and was amazed by the response. People were grateful and genuinely benefited.",
+    "name": "Sahil Mehra",
+    "role": "Volunteer Doctor"
+  },
+  {
+    "initiative": "Pahal – An Initiative",
+    "review": "Pahal’s events make social causes engaging and meaningful. Their team brings real energy and creativity to every campaign.",
+    "name": "Ritika Jain",
+    "role": "Volunteer"
+  },
+  {
+    "initiative": "Pahal – An Initiative",
+    "review": "The food distribution drive during monsoon was a big relief for our area. The volunteers worked selflessly throughout.",
+    "name": "Kavita Devi",
+    "role": "Beneficiary"
+  },
+  {
+    "initiative": "General Impact",
+    "review": "I’ve supported this NGO for years and seen how sincerely they work. Every program leaves a visible positive change.",
+    "name": "Harish Malhotra",
+    "role": "Donor"
+  },
+  {
+    "initiative": "General Impact",
+    "review": "The NGO’s commitment to community service is inspiring. Their initiatives create awareness and hope in every neighborhood.",
+    "name": "Sneha Kapoor",
+    "role": "Volunteer"
+  }
+]
+
 export default function Home() {
   return (
     <main className={styles.main}>
@@ -107,7 +231,28 @@ Paatshaala strives to make the Right to Education a reality for children from ec
           </div>
         </div>
       </div>
-      
+      <div className={testimonialsStyles.testimonialsContainer}>
+        <div className={testimonialsStyles.testimonialsScroll}>
+          {[...testimonialText, ...testimonialText].map((t, idx) => (
+            <figure key={`first-${idx}`} className={testimonialsStyles.card}>
+              <div className={testimonialsStyles.initiative}>{t.initiative}</div>
+              <div className={testimonialsStyles.review}>{t.review}</div>
+              <div className={testimonialsStyles.name}>{t.name}</div>
+              <div className={testimonialsStyles.role}>{t.role}</div>
+            </figure>
+          ))}
+        </div>
+        <div className={testimonialsStyles.testimonialsScrollReverse}>
+          {[...testimonialText, ...testimonialText].map((t, idx) => (
+            <figure key={`second-${idx}`} className={testimonialsStyles.card}>
+              <div className={testimonialsStyles.initiative}>{t.initiative}</div>
+              <div className={testimonialsStyles.review}>{t.review}</div>
+              <div className={testimonialsStyles.name}>{t.name}</div>
+              <div className={testimonialsStyles.role}>{t.role}</div>
+            </figure>
+          ))}
+        </div>
+      </div>
     </main>
   );
 }

@@ -196,9 +196,7 @@ export default function Home() {
         <div className={styles.textContainer}>
           <h1 className={styles.title}>Change I Network</h1>
           <p className={styles.description}>
-          Change I Network (CIN) is a NGO with a mission to bring
-          <br />
-          positive change in the lives of people.          
+            Change I Network (CIN) is a NGO with a mission to bring positive change in the lives of people.
           </p>
 
           <Link href="/donate" className={styles.ctaButton}>Donate Now</Link>

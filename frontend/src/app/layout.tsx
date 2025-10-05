@@ -14,8 +14,8 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: "Connect I Network - NGO",
-  description: "Connect I Network is an NGO based in Dwarka Mor, dedicated to making a positive impact in the community.",
+  title: "Change I Network - NGO",
+  description: "Change I Network is an NGO based in Dwarka Mor, dedicated to making a positive impact in the community.",
 };
 
 export default async function RootLayout({

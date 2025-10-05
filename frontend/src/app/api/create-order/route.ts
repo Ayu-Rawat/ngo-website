@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
       notes: {
         donor_name: donorName || 'Anonymous',
         donor_email: donorEmail || '',
-        purpose: 'Donation to Connect I Network',
+  purpose: 'Donation to Change I Network',
       },
     };
 

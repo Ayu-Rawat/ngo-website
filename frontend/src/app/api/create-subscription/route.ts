@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
       contact: customerPhone || '',
       notes: {
         purpose: 'Monthly Donation Subscriber',
-        ngo: 'Connect I Network'
+  ngo: 'Change I Network'
       }
     });
 
@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
         subscriber_name: customerName,
         subscriber_email: customerEmail,
         purpose: 'Monthly Recurring Donation',
-        ngo_name: 'Connect I Network'
+  ngo_name: 'Change I Network'
       }
     //   notify: {
     //     email: true,

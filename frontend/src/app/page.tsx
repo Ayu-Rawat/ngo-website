@@ -43,7 +43,7 @@ export default function Home() {
       <div     
       style={{
       backgroundImage: `
-        radial-gradient(125% 125% at 50% 90%, #ffffff 40%, #a1ff85ff 100%)
+        radial-gradient(125% 125% at 50% 90%, transparent 40%, #a1ff85ff 100%)
       `,
       backgroundSize: "100% 100%",
     }} className={styles.tagLine}>
@@ -65,8 +65,10 @@ export default function Home() {
               </div>
               <div className={styles.programContent}>
                 <div className={styles.programNumber}>1</div>
-                <h3 className={styles.programCardTitle}>Education for All</h3>
-                <p className={styles.programCardDescription}>Providing quality education and learning opportunities to underprivileged children</p>
+                <h3 className={styles.programCardTitle}>Paatshaala – Learning Today, Leading Tomorrow</h3>
+                <p className={styles.programCardDescription}>
+Paatshaala strives to make the Right to Education a reality for children from economically weaker sections. The program focuses on changing parents’ perspectives about education and providing them with the tools to help their children succeed.
+</p>
               </div>
             </div>
 
@@ -76,8 +78,8 @@ export default function Home() {
               </div>
               <div className={styles.programContent}>
                 <div className={styles.programNumber}>2</div>
-                <h3 className={styles.programCardTitle}>Women Empowerment</h3>
-                <p className={styles.programCardDescription}>Supporting women through skill development and entrepreneurship programs</p>
+                <h3 className={styles.programCardTitle}>Paryavaran – My Locality, I Care</h3>
+                <p className={styles.programCardDescription}>This initiative promotes civic responsibility and environmental awareness among local residents. Every weekend, CIN members and volunteers conduct cleanliness drives in parks and public spaces. </p>
               </div>
             </div>
 
@@ -87,8 +89,8 @@ export default function Home() {
               </div>
               <div className={styles.programContent}>
                 <div className={styles.programNumber}>3</div>
-                <h3 className={styles.programCardTitle}>Youth Development</h3>
-                <p className={styles.programCardDescription}>Inspiring youth leadership and creating positive change in communities</p>
+                <h3 className={styles.programCardTitle}>Perfect Health</h3>
+                <p className={styles.programCardDescription}>Under this program, CIN raises health awareness through community activities such as medical camps, blood donation drives, and eye check-ups. The initiative aims to promote preventive healthcare and a healthier lifestyle among underprivileged communities.</p>
               </div>
             </div>
 
@@ -98,13 +100,14 @@ export default function Home() {
               </div>
               <div className={styles.programContent}>
                 <div className={styles.programNumber}>4</div>
-                <h3 className={styles.programCardTitle}>Health & Wellness</h3>
-                <p className={styles.programCardDescription}>Promoting healthy living and providing access to essential healthcare services</p>
+                <h3 className={styles.programCardTitle}>Pahal – An Initiative</h3>
+                <p className={styles.programCardDescription}>Pahal serves as CIN’s platform for launching impactful social initiatives—ranging from awareness street plays and voter drives to orphanage support, food and winter relief distributions, and the “Donate a Flag” campaign.</p>
               </div>
             </div>
           </div>
         </div>
       </div>
+      
     </main>
   );
 }

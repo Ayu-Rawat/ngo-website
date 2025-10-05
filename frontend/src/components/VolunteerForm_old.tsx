@@ -233,7 +233,7 @@ const VolunteerForm = () => {
     <div className={styles.container}>
       <h2 className={styles.title}>Volunteer Registration Form</h2>
       <p className={styles.subtitle}>
-        Join our mission to make a positive impact in the community. Fill out this form to become a volunteer with Connect I Network.
+  Join our mission to make a positive impact in the community. Fill out this form to become a volunteer with Change I Network.
       </p>
 
       <form onSubmit={handleSubmit} className={styles.form}>

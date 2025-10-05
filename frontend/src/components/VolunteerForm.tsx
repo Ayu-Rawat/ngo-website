@@ -10,16 +10,18 @@ interface VolunteerFormData {
   residency: string;
 }
 
-const VolunteerForm = () => {
-  const [formData, setFormData] = useState<VolunteerFormData>({
-    fullName: '',
-    phone: '',
-    email: '',
-    residency: '',
-  });
+const INITIAL_FORM_DATA: VolunteerFormData = {
+  fullName: '',
+  phone: '',
+  email: '',
+  residency: '',
+};
 
+const VolunteerForm = () => {
+  const [formData, setFormData] = useState<VolunteerFormData>(INITIAL_FORM_DATA);
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submittedEmail, setSubmittedEmail] = useState('');
 
   const handleInputChange = (field: keyof VolunteerFormData, value: string) => {
     setFormData(prev => ({
@@ -69,6 +71,8 @@ const VolunteerForm = () => {
     setLoading(true);
 
     try {
+      const emailForConfirmation = formData.email.trim();
+
       const response = await fetch('/api/volunteer-submit', {
         method: 'POST',
         headers: {
@@ -78,14 +82,10 @@ const VolunteerForm = () => {
       });
 
       if (response.ok) {
+        setSubmittedEmail(emailForConfirmation);
         setSubmitted(true);
         // Reset form
-        setFormData({
-          fullName: '',
-          phone: '',
-          email: '',
-          residency: '',
-        });
+        setFormData(INITIAL_FORM_DATA);
       } else {
         const error = await response.json();
         alert(`Submission failed: ${error.message || 'Please try again'}`);
@@ -103,15 +103,25 @@ const VolunteerForm = () => {
       <div className={styles.successContainer}>
         <div className={styles.successContent}>
           <div className={styles.successIcon}>✓</div>
-          <h2 className={styles.successTitle}>Thank You for Volunteering!</h2>
+          <h2 className={styles.successTitle}>Thank you for stepping up!</h2>
           <p className={styles.successMessage}>
-            Your volunteer application has been submitted successfully. Our team will review your application and contact you within 2-3 business days.
+            Your volunteer application is in. Our team will review it and connect with you within 2-3 business days to share the next steps.
           </p>
           <p className={styles.successNote}>
-            You will receive a confirmation email shortly at {formData.email}.
+            You will receive a confirmation email shortly
+            {submittedEmail && (
+              <>
+                {' '}
+                at <strong>{submittedEmail}</strong>
+              </>
+            )}
+            . We can&apos;t wait to collaborate with you.
           </p>
           <button
-            onClick={() => setSubmitted(false)}
+            onClick={() => {
+              setSubmitted(false);
+              setSubmittedEmail('');
+            }}
             className={styles.newApplicationButton}
           >
             Submit Another Application
@@ -123,11 +133,6 @@ const VolunteerForm = () => {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Join Our Volunteer Team</h2>
-      <p className={styles.subtitle}>
-        Fill out this simple form to become a volunteer with Connect I Network and make a difference in your community.
-      </p>
-
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.inputGroup}>
           <label className={styles.label}>Full Name *</label>
@@ -185,16 +190,12 @@ const VolunteerForm = () => {
           {loading ? (
             <div className={styles.loadingContainer}>
               <div className={styles.spinner}></div>
-              Submitting Application...
             </div>
           ) : (
-            'Submit Volunteer Application'
+            'Submit'
           )}
         </button>
 
-        <p className={styles.formNote}>
-          * Required fields. Your information will be kept confidential and used only for volunteer coordination purposes.
-        </p>
       </form>
     </div>
   );

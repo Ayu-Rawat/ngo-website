@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
 
 function generateEmailContent(formData: any): string {
   return `
-VOLUNTEER APPLICATION - CONNECT I NETWORK
+VOLUNTEER APPLICATION - CHANGE I NETWORK
 =========================================
 
 PERSONAL INFORMATION:
@@ -123,7 +123,7 @@ async function sendConfirmationToVolunteer(formData: any) {
     const confirmationContent = `
 Dear ${formData.fullName},
 
-Thank you for your interest in volunteering with Connect I Network!
+Thank you for your interest in volunteering with Change I Network!
 
 We have received your volunteer application and our team will review it within 2-3 business days. We will contact you at ${formData.phone} or ${formData.email} with next steps.
 
@@ -137,7 +137,7 @@ Your Application Summary:
 Thank you for wanting to make a difference in our community!
 
 Best regards,
-Connect I Network Team
+Change I Network Team
 Dwarka Mor, Delhi
 
 ---
@@ -149,7 +149,7 @@ For questions, contact us at volunteer@connectinetwork.org
     if (process.env.EMAIL_MODE === 'development') {
       console.log('📧 CONFIRMATION EMAIL TO VOLUNTEER (Development Mode):');
       console.log('To:', formData.email);
-      console.log('Subject: Volunteer Application Received - Connect I Network');
+  console.log('Subject: Volunteer Application Received - Change I Network');
       console.log('Content:', confirmationContent);
       return { success: true, messageId: 'volunteer_dev_' + Date.now() };
     }
@@ -160,7 +160,7 @@ For questions, contact us at volunteer@connectinetwork.org
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: formData.email,
-      subject: 'Volunteer Application Received - Connect I Network',
+  subject: 'Volunteer Application Received - Change I Network',
       text: confirmationContent,
       html: confirmationContent.replace(/\n/g, '<br>'),
     };

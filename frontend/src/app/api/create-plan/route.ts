@@ -21,14 +21,14 @@ export async function POST(request: NextRequest) {
       period: interval,
       interval: 1,
       item: {
-        name: `Connect I Network - Monthly Donation ₹${amount}`,
+  name: `Change I Network - Monthly Donation ₹${amount}`,
         amount: amount * 100, // Convert to paise
         currency: 'INR',
-        description: `Monthly recurring donation of ₹${amount} to Connect I Network NGO`
+  description: `Monthly recurring donation of ₹${amount} to Change I Network NGO`
       },
       notes: {
         purpose: 'Monthly Recurring Donation',
-        ngo_name: 'Connect I Network',
+  ngo_name: 'Change I Network',
         amount_inr: amount.toString()
       }
     };

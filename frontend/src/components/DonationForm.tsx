@@ -103,8 +103,8 @@ const DonationForm = () => {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: order.amount,
         currency: 'INR',
-        name: 'Connect I Network',
-        description: 'One-time Donation for Connect I Network NGO',
+  name: 'Change I Network',
+        description: 'One-time Donation for NGO - Making a Difference',
         image: '/favicon.ico',
         order_id: order.id,
         method: {
@@ -218,7 +218,7 @@ const DonationForm = () => {
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         subscription_id: subscription.subscription_id,
-        name: 'Connect I Network',
+  name: 'Change I Network',
         description: `Monthly Donation of ₹${finalAmount}`,
         image: '/favicon.ico',
         method: {

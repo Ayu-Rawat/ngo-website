@@ -130,14 +130,44 @@ export async function PUT(request: NextRequest) {
     switch (action) {
       case 'cancel':
         result = await razorpay.subscriptions.cancel(subscription_id, cancel_at_cycle_end || false);
+        // Update status to cancelled instead of deleting
+        await sql`
+          UPDATE user_subscriptions 
+          SET 
+            status = ${(result as any).status},
+            updated_at = CURRENT_TIMESTAMP
+          WHERE razorpay_subscription_id = ${subscription_id}
+        `;
         break;
 
       case 'pause':
         result = await razorpay.subscriptions.pause(subscription_id, { pause_at: 'now' });
+        // Update database with the new status
+        await sql`
+          UPDATE user_subscriptions 
+          SET 
+            status = ${(result as any).status},
+            current_start = ${(result as any).current_start},
+            current_end = ${(result as any).current_end},
+            charge_at = ${(result as any).charge_at},
+            updated_at = CURRENT_TIMESTAMP
+          WHERE razorpay_subscription_id = ${subscription_id}
+        `;
         break;
 
       case 'resume':
         result = await razorpay.subscriptions.resume(subscription_id, { resume_at: 'now' });
+        // Update database with the new status
+        await sql`
+          UPDATE user_subscriptions 
+          SET 
+            status = ${(result as any).status},
+            current_start = ${(result as any).current_start},
+            current_end = ${(result as any).current_end},
+            charge_at = ${(result as any).charge_at},
+            updated_at = CURRENT_TIMESTAMP
+          WHERE razorpay_subscription_id = ${subscription_id}
+        `;
         break;
 
       default:
@@ -146,18 +176,6 @@ export async function PUT(request: NextRequest) {
           { status: 400 }
         );
     }
-
-    // Update our database with the new status
-    await sql`
-      UPDATE user_subscriptions 
-      SET 
-        status = ${(result as any).status},
-        current_start = ${(result as any).current_start},
-        current_end = ${(result as any).current_end},
-        charge_at = ${(result as any).charge_at},
-        updated_at = CURRENT_TIMESTAMP
-      WHERE razorpay_subscription_id = ${subscription_id}
-    `;
 
     return NextResponse.json({
       success: true,

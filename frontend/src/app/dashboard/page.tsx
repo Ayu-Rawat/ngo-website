@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { FaHeart, FaDonate, FaSync, FaCalendarAlt, FaCreditCard, FaUser, FaSignOutAlt, FaCheckCircle, FaPause, FaPlay, FaTimes } from 'react-icons/fa';
 import styles from './page.module.css';
 
 interface Donation {
@@ -57,6 +58,17 @@ interface DashboardData {
   };
 }
 
+interface UserProfile {
+  id: string;
+  name: string;
+  email: string;
+}
+
+interface SessionResponse {
+  success: boolean;
+  user: UserProfile | null;
+}
+
 export default function Dashboard() {
   const router = useRouter();
   const [data, setData] = useState<DashboardData | null>(null);
@@ -64,9 +76,30 @@ export default function Dashboard() {
   const [syncing, setSyncing] = useState(false);
   const [activeTab, setActiveTab] = useState<'overview' | 'donations' | 'subscriptions'>('overview');
   const [managingSubscription, setManagingSubscription] = useState<string | null>(null);
+  const [user, setUser] = useState<UserProfile | null>(null);
 
   const fetchDashboardData = async () => {
     try {
+      const sessionRes = await fetch('/api/user/session');
+
+      if (sessionRes.status === 401) {
+        router.push('/login');
+        return;
+      }
+
+      if (!sessionRes.ok) {
+        throw new Error('Failed to fetch user session');
+      }
+
+      const sessionData: SessionResponse = await sessionRes.json();
+
+      if (!sessionData.success || !sessionData.user) {
+        router.push('/login');
+        return;
+      }
+
+      setUser(sessionData.user);
+
       const [donationsRes, subscriptionsRes] = await Promise.all([
         fetch('/api/user/donations'),
         fetch('/api/user/subscriptions')
@@ -107,6 +140,14 @@ export default function Dashboard() {
   useEffect(() => {
     fetchDashboardData();
   }, []);
+
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/logout', { method: 'POST' });
+    } finally {
+      router.push('/login');
+    }
+  };
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-IN', {
@@ -227,46 +268,67 @@ export default function Dashboard() {
   }
 
   return (
-    <div className={styles.container} style={{ marginTop:'80px' }}>
+    <div className={styles.container}>
       <div className={styles.header}>
         <h1 className={styles.title}>My Donation Dashboard</h1>
         <p className={styles.subtitle}>Track your contributions and manage your subscriptions</p>
       </div>
 
-      {/* Stats Overview */}
-      <div className={styles.statsGrid}>
-        <div className={styles.statCard}>
-          <div className={styles.statIcon}>💝</div>
-          <div className={styles.statInfo}>
-            <div className={styles.statValue}>{data.stats.total_donations}</div>
-            <div className={styles.statLabel}>Total Donations</div>
-          </div>
-        </div>
-        <div className={styles.statCard}>
-          <div className={styles.statIcon}>💰</div>
-          <div className={styles.statInfo}>
-            <div className={styles.statValue}>{formatCurrency(data.stats.total_donation_amount)}</div>
-            <div className={styles.statLabel}>Total Donated</div>
-          </div>
-        </div>
-        <div className={styles.statCard}>
-          <div className={styles.statIcon}>🔄</div>
-          <div className={styles.statInfo}>
-            <div className={styles.statValue}>{data.stats.active_subscriptions}</div>
-            <div className={styles.statLabel}>Active Subscriptions</div>
-          </div>
-        </div>
-        <div className={styles.statCard}>
-          <div className={styles.statIcon}>📅</div>
-          <div className={styles.statInfo}>
-            <div className={styles.statValue}>{formatCurrency(data.stats.total_monthly_amount)}</div>
-            <div className={styles.statLabel}>Monthly Commitment</div>
-          </div>
-        </div>
-      </div>
+      <div className={styles.dashboardGrid}>
+        {/* Left Column - User Info & Stats */}
+        <div className={styles.leftColumn}>
+          {user && (
+            <div className={styles.profileCard}>
+              <div className={styles.profileAvatar}>
+                <FaUser />
+              </div>
+              <div className={styles.profileInfo}>
+                <div className={styles.profileName}>{user.name}</div>
+                <div className={styles.profileEmail}>{user.email}</div>
+              </div>
+              <button className={styles.logoutButton} onClick={handleLogout}>
+                <FaSignOutAlt /> Sign Out
+              </button>
+            </div>
+          )}
 
-      {/* Tab Navigation */}
-      <div className={styles.tabNav}>
+          {/* Stats Overview */}
+          <div className={styles.statsGrid}>
+            <div className={styles.statCard}>
+              <div className={styles.statIcon}><FaHeart /></div>
+              <div className={styles.statInfo}>
+                <div className={styles.statValue}>{data.stats.total_donations}</div>
+                <div className={styles.statLabel}>Total Donations</div>
+              </div>
+            </div>
+            <div className={styles.statCard}>
+              <div className={styles.statIcon}><FaDonate /></div>
+              <div className={styles.statInfo}>
+                <div className={styles.statValue}>{formatCurrency(data.stats.total_donation_amount)}</div>
+                <div className={styles.statLabel}>Total Donated</div>
+              </div>
+            </div>
+            <div className={styles.statCard}>
+              <div className={styles.statIcon}><FaSync /></div>
+              <div className={styles.statInfo}>
+                <div className={styles.statValue}>{data.stats.active_subscriptions}</div>
+                <div className={styles.statLabel}>Active Subscriptions</div>
+              </div>
+            </div>
+            <div className={styles.statCard}>
+              <div className={styles.statIcon}><FaCalendarAlt /></div>
+              <div className={styles.statInfo}>
+                <div className={styles.statValue}>{formatCurrency(data.stats.total_monthly_amount)}</div>
+                <div className={styles.statLabel}>Monthly Commitment</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column - History & Tabs */}
+        <div className={styles.rightColumn}>
+          {/* Tab Navigation */}
+          <div className={styles.tabNav}>
         <button
           className={`${styles.tabButton} ${activeTab === 'overview' ? styles.active : ''}`}
           onClick={() => handleTabChange('overview')}
@@ -297,7 +359,7 @@ export default function Dashboard() {
                 {/* Recent donations */}
                 {data.donations.slice(0, 3).map((donation) => (
                   <div key={donation.id} className={styles.activityItem}>
-                    <div className={styles.activityIcon}>💳</div>
+                    <div className={styles.activityIcon}><FaCreditCard /></div>
                     <div className={styles.activityDetails}>
                       <div className={styles.activityTitle}>One-time donation</div>
                       <div className={styles.activityMeta}>
@@ -313,7 +375,7 @@ export default function Dashboard() {
                 {/* Recent subscription payments */}
                 {data.payments.slice(0, 3).map((payment) => (
                   <div key={payment.id} className={styles.activityItem}>
-                    <div className={styles.activityIcon}>🔄</div>
+                    <div className={styles.activityIcon}><FaSync /></div>
                     <div className={styles.activityDetails}>
                       <div className={styles.activityTitle}>Monthly subscription payment</div>
                       <div className={styles.activityMeta}>
@@ -367,7 +429,7 @@ export default function Dashboard() {
           <div className={styles.donations}>
             {data.donations.length === 0 ? (
               <div className={styles.emptyState}>
-                <div className={styles.emptyIcon}>💝</div>
+                <div className={styles.emptyIcon}><FaHeart /></div>
                 <h3 className={styles.emptyTitle}>No donations yet</h3>
                 <p className={styles.emptyText}>
                   You haven't made any one-time donations yet. Start making a difference today!
@@ -410,7 +472,7 @@ export default function Dashboard() {
           <div className={styles.subscriptions}>
             {data.subscriptions.length === 0 ? (
               <div className={styles.emptyState}>
-                <div className={styles.emptyIcon}>🔄</div>
+                <div className={styles.emptyIcon}><FaSync /></div>
                 <h3 className={styles.emptyTitle}>No subscriptions yet</h3>
                 <p className={styles.emptyText}>
                   Set up a monthly subscription to make a sustained impact on our community.
@@ -452,7 +514,7 @@ export default function Dashboard() {
                           onClick={() => confirmAction(subscription.razorpay_subscription_id, 'pause')}
                           disabled={managingSubscription === subscription.razorpay_subscription_id}
                         >
-                          {managingSubscription === subscription.razorpay_subscription_id ? 'Processing...' : 'Pause Subscription'}
+                          <FaPause /> {managingSubscription === subscription.razorpay_subscription_id ? 'Processing...' : 'Pause Subscription'}
                         </button>
                       )}
                       
@@ -462,13 +524,13 @@ export default function Dashboard() {
                           onClick={() => confirmAction(subscription.razorpay_subscription_id, 'resume')}
                           disabled={managingSubscription === subscription.razorpay_subscription_id}
                         >
-                          {managingSubscription === subscription.razorpay_subscription_id ? 'Processing...' : 'Resume Subscription'}
+                          <FaPlay /> {managingSubscription === subscription.razorpay_subscription_id ? 'Processing...' : 'Resume Subscription'}
                         </button>
                       )}
                       
                       {['cancelled', 'canceled'].includes((subscription as any).status?.toLowerCase()) && (
                         <p className={styles.cancelledNote}>
-                          This subscription has been cancelled. <a href="/donate">Start a new subscription</a>
+                          <FaTimes /> This subscription has been cancelled. <a href="/donate">Start a new subscription</a>
                         </p>
                       )}
                     </div>
@@ -478,6 +540,8 @@ export default function Dashboard() {
             )}
           </div>
         )}
+      </div>
+        </div>
       </div>
     </div>
   );

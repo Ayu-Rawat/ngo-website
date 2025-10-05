@@ -166,7 +166,7 @@ export default function Dashboard() {
     });
   };
 
-  const manageSubscription = async (subscriptionId: string, action: 'pause' | 'resume') => {
+  const manageSubscription = async (subscriptionId: string, action: 'pause' | 'resume'| 'cancel') => {
     try {
       setManagingSubscription(subscriptionId);
       
@@ -196,11 +196,12 @@ export default function Dashboard() {
     }
   };
 
-  const confirmAction = (subscriptionId: string, action: 'pause' | 'resume') => {
+  const confirmAction = (subscriptionId: string, action: 'pause' | 'resume'| 'cancel') => {
     const actionText = action;
     const warningText = action === 'pause'
       ? 'This will pause your subscription. You can resume it anytime from this dashboard.'
-      : 'This will resume your subscription and continue monthly billing.';
+      : action === 'cancel' ? 
+      'This will cancel your subscription and monthly billing will discontinue.' : 'This will resume your subscription and monthly billing will continue';
     
     if (confirm(`Are you sure you want to ${actionText} this subscription?\n\n${warningText}`)) {
       manageSubscription(subscriptionId, action);
@@ -329,218 +330,236 @@ export default function Dashboard() {
         <div className={styles.rightColumn}>
           {/* Tab Navigation */}
           <div className={styles.tabNav}>
-        <button
-          className={`${styles.tabButton} ${activeTab === 'overview' ? styles.active : ''}`}
-          onClick={() => handleTabChange('overview')}
-        >
-          Overview
-        </button>
-        <button
-          className={`${styles.tabButton} ${activeTab === 'donations' ? styles.active : ''}`}
-          onClick={() => handleTabChange('donations')}
-        >
-          One-time Donations
-        </button>
-        <button
-          className={`${styles.tabButton} ${activeTab === 'subscriptions' ? styles.active : ''}`}
-          onClick={() => handleTabChange('subscriptions')}
-        >
-          Monthly Subscriptions
-        </button>
-      </div>
+            <button
+              className={`${styles.tabButton} ${activeTab === 'overview' ? styles.active : ''}`}
+              onClick={() => handleTabChange('overview')}
+            >
+              Overview
+            </button>
+            <button
+              className={`${styles.tabButton} ${activeTab === 'donations' ? styles.active : ''}`}
+              onClick={() => handleTabChange('donations')}
+            >
+              One-time Donations
+            </button>
+            <button
+              className={`${styles.tabButton} ${activeTab === 'subscriptions' ? styles.active : ''}`}
+              onClick={() => handleTabChange('subscriptions')}
+            >
+              Monthly Subscriptions
+            </button>
+          </div>
 
-      {/* Tab Content */}
-      <div className={styles.tabContent}>
-        {activeTab === 'overview' && (
-          <div className={styles.overview}>
-            <div className={styles.section}>
-              <h3 className={styles.sectionTitle}>Recent Activity</h3>
-              <div className={styles.activityList}>
-                {/* Recent donations */}
-                {data.donations.slice(0, 3).map((donation) => (
-                  <div key={donation.id} className={styles.activityItem}>
-                    <div className={styles.activityIcon}><FaCreditCard /></div>
-                    <div className={styles.activityDetails}>
-                      <div className={styles.activityTitle}>One-time donation</div>
-                      <div className={styles.activityMeta}>
-                        {formatCurrency(donation.amount)} • {formatDate(donation.created_at)}
-                      </div>
-                    </div>
-                    <div className={styles.activityStatus}>
-                      <span className={styles.statusBadge}>{donation.status}</span>
-                    </div>
-                  </div>
-                ))}
-                
-                {/* Recent subscription payments */}
-                {data.payments.slice(0, 3).map((payment) => (
-                  <div key={payment.id} className={styles.activityItem}>
-                    <div className={styles.activityIcon}><FaSync /></div>
-                    <div className={styles.activityDetails}>
-                      <div className={styles.activityTitle}>Monthly subscription payment</div>
-                      <div className={styles.activityMeta}>
-                        {formatCurrency(payment.amount)} • {formatDate(payment.payment_date)}
-                      </div>
-                    </div>
-                    <div className={styles.activityStatus}>
-                      <span className={styles.statusBadge}>{payment.status}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {data.subscriptions.length > 0 && (
-              <div className={styles.section}>
-                <h3 className={styles.sectionTitle}>Active Subscriptions</h3>
-                <div className={styles.subscriptionsList}>
-                  {data.subscriptions
-                    .filter((sub: any) => ['active', 'authenticated', 'activated'].includes(sub.status?.toLowerCase()))
-                    .map((subscription) => (
-                    <div key={subscription.id} className={styles.subscriptionCard}>
-                      <div className={styles.subscriptionHeader}>
-                        <h4 className={styles.subscriptionTitle}>Monthly Donation</h4>
-                        <span className={styles.subscriptionStatus}>
-                          {(subscription as any).status}
-                        </span>
-                      </div>
-                      <div className={styles.subscriptionDetails}>
-                        <div className={styles.subscriptionAmount}>
-                          {formatCurrency(subscription.amount)}/month
-                        </div>
-                        <div className={styles.subscriptionMeta}>
-                          Started: {formatDate(subscription.created_at)}
-                        </div>
-                        {subscription.charge_at_date && (
-                          <div className={styles.subscriptionMeta}>
-                            Next charge: {formatDate(subscription.charge_at_date)}
+          {/* Tab Content */}
+          <div className={styles.tabContent}>
+            {activeTab === 'overview' && (
+              <div className={styles.overview}>
+                <div className={styles.section}>
+                  <h3 className={styles.sectionTitle}>Recent Activity</h3>
+                  <div className={styles.activityList}>
+                    {/* Recent donations */}
+                    {data.donations.slice(0, 3).map((donation) => (
+                      <div key={donation.id} className={styles.activityItem}>
+                        <div className={styles.activityIcon}><FaCreditCard /></div>
+                        <div className={styles.activityDetails}>
+                          <div className={styles.activityTitle}>One-time donation</div>
+                          <div className={styles.activityMeta}>
+                            {formatCurrency(donation.amount)} • {formatDate(donation.created_at)}
                           </div>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-
-        {activeTab === 'donations' && (
-          <div className={styles.donations}>
-            {data.donations.length === 0 ? (
-              <div className={styles.emptyState}>
-                <div className={styles.emptyIcon}><FaHeart /></div>
-                <h3 className={styles.emptyTitle}>No donations yet</h3>
-                <p className={styles.emptyText}>
-                  You haven't made any one-time donations yet. Start making a difference today!
-                </p>
-                <a href="/donate" className={styles.donateButton}>
-                  Make a Donation
-                </a>
-              </div>
-            ) : (
-              <div className={styles.donationsList}>
-                {data.donations.map((donation) => (
-                  <div key={donation.id} className={styles.donationCard}>
-                    <div className={styles.donationHeader}>
-                      <div className={styles.donationAmount}>
-                        {formatCurrency(donation.amount)}
-                      </div>
-                      <span className={`${styles.statusBadge} ${styles[donation.status]}`}>
-                        {donation.status}
-                      </span>
-                    </div>
-                    <div className={styles.donationDetails}>
-                      <div className={styles.donationMeta}>
-                        <strong>Payment ID:</strong> {donation.razorpay_payment_id}
-                      </div>
-                      <div className={styles.donationMeta}>
-                        <strong>Method:</strong> {donation.payment_method}
-                      </div>
-                      <div className={styles.donationMeta}>
-                        <strong>Date:</strong> {formatDate(donation.created_at)}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-
-        {activeTab === 'subscriptions' && (
-          <div className={styles.subscriptions}>
-            {data.subscriptions.length === 0 ? (
-              <div className={styles.emptyState}>
-                <div className={styles.emptyIcon}><FaSync /></div>
-                <h3 className={styles.emptyTitle}>No subscriptions yet</h3>
-                <p className={styles.emptyText}>
-                  Set up a monthly subscription to make a sustained impact on our community.
-                </p>
-                <a href="/donate" className={styles.donateButton}>
-                  Start Monthly Donation
-                </a>
-              </div>
-            ) : (
-              <div className={styles.subscriptionsList}>
-                {data.subscriptions.map((subscription) => (
-                  <div key={subscription.id} className={styles.subscriptionCard}>
-                    <div className={styles.subscriptionHeader}>
-                      <h4 className={styles.subscriptionTitle}>
-                        Monthly Donation - {formatCurrency(subscription.amount)}
-                      </h4>
-                      <span className={`${styles.statusBadge} ${styles[(subscription as any).status]}`}>
-                        {(subscription as any).status}
-                      </span>
-                    </div>
-                    <div className={styles.subscriptionDetails}>
-                      <div className={styles.subscriptionMeta}>
-                        <strong>Subscription ID:</strong> {subscription.razorpay_subscription_id}
-                      </div>
-                      <div className={styles.subscriptionMeta}>
-                        <strong>Started:</strong> {formatDate(subscription.created_at)}
-                      </div>
-                      {subscription.charge_at_date && (
-                        <div className={styles.subscriptionMeta}>
-                          <strong>Next Payment:</strong> {formatDate(subscription.charge_at_date)}
                         </div>
-                      )}
-                    </div>
+                        <div className={styles.activityStatus}>
+                          <span className={styles.statusBadge}>{donation.status}</span>
+                        </div>
+                      </div>
+                    ))}
                     
-                    <div className={styles.subscriptionActions}>
-                      {['active', 'authenticated', 'activated'].includes((subscription as any).status?.toLowerCase()) && (
-                        <button 
-                          className={`${styles.manageButton} ${styles.pauseButton}`}
-                          onClick={() => confirmAction(subscription.razorpay_subscription_id, 'pause')}
-                          disabled={managingSubscription === subscription.razorpay_subscription_id}
-                        >
-                          <FaPause /> {managingSubscription === subscription.razorpay_subscription_id ? 'Processing...' : 'Pause Subscription'}
-                        </button>
-                      )}
-                      
-                      {(subscription as any).status?.toLowerCase() === 'paused' && (
-                        <button 
-                          className={`${styles.manageButton} ${styles.resumeButton}`}
-                          onClick={() => confirmAction(subscription.razorpay_subscription_id, 'resume')}
-                          disabled={managingSubscription === subscription.razorpay_subscription_id}
-                        >
-                          <FaPlay /> {managingSubscription === subscription.razorpay_subscription_id ? 'Processing...' : 'Resume Subscription'}
-                        </button>
-                      )}
-                      
-                      {['cancelled', 'canceled'].includes((subscription as any).status?.toLowerCase()) && (
-                        <p className={styles.cancelledNote}>
-                          <FaTimes /> This subscription has been cancelled. <a href="/donate">Start a new subscription</a>
-                        </p>
-                      )}
+                    {/* Recent subscription payments */}
+                    {data.payments.slice(0, 3).map((payment) => (
+                      <div key={payment.id} className={styles.activityItem}>
+                        <div className={styles.activityIcon}><FaSync /></div>
+                        <div className={styles.activityDetails}>
+                          <div className={styles.activityTitle}>Monthly subscription payment</div>
+                          <div className={styles.activityMeta}>
+                            {formatCurrency(payment.amount)} • {formatDate(payment.payment_date)}
+                          </div>
+                        </div>
+                        <div className={styles.activityStatus}>
+                          <span className={styles.statusBadge}>{payment.status}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {data.subscriptions.length > 0 && (
+                  <div className={styles.section}>
+                    <h3 className={styles.sectionTitle}>Active Subscriptions</h3>
+                    <div className={styles.subscriptionsList}>
+                      {data.subscriptions
+                        .filter((sub: any) => ['active', 'authenticated', 'activated'].includes(sub.status?.toLowerCase()))
+                        .map((subscription) => (
+                        <div key={subscription.id} className={styles.subscriptionCard}>
+                          <div className={styles.subscriptionHeader}>
+                            <h4 className={styles.subscriptionTitle}>Monthly Donation</h4>
+                            <span className={styles.subscriptionStatus}>
+                              {(subscription as any).status}
+                            </span>
+                          </div>
+                          <div className={styles.subscriptionDetails}>
+                            <div className={styles.subscriptionAmount}>
+                              {formatCurrency(subscription.amount)}/month
+                            </div>
+                            <div className={styles.subscriptionMeta}>
+                              Started: {formatDate(subscription.created_at)}
+                            </div>
+                            {subscription.charge_at_date && (
+                              <div className={styles.subscriptionMeta}>
+                                Next charge: {formatDate(subscription.charge_at_date)}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                ))}
+                )}
+              </div>
+            )}
+
+            {activeTab === 'donations' && (
+              <div className={styles.donations}>
+                {data.donations.length === 0 ? (
+                  <div className={styles.emptyState}>
+                    <div className={styles.emptyIcon}><FaHeart /></div>
+                    <h3 className={styles.emptyTitle}>No donations yet</h3>
+                    <p className={styles.emptyText}>
+                      You haven't made any one-time donations yet. Start making a difference today!
+                    </p>
+                    <a href="/donate" className={styles.donateButton}>
+                      Make a Donation
+                    </a>
+                  </div>
+                ) : (
+                  <div className={styles.donationsList}>
+                    {data.donations.map((donation) => (
+                      <div key={donation.id} className={styles.donationCard}>
+                        <div className={styles.donationHeader}>
+                          <div className={styles.donationAmount}>
+                            {formatCurrency(donation.amount)}
+                          </div>
+                          <span className={`${styles.statusBadge} ${styles[donation.status]}`}>
+                            {donation.status}
+                          </span>
+                        </div>
+                        <div className={styles.donationDetails}>
+                          <div className={styles.donationMeta}>
+                            <strong>Payment ID:</strong> {donation.razorpay_payment_id}
+                          </div>
+                          <div className={styles.donationMeta}>
+                            <strong>Method:</strong> {donation.payment_method}
+                          </div>
+                          <div className={styles.donationMeta}>
+                            <strong>Date:</strong> {formatDate(donation.created_at)}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {activeTab === 'subscriptions' && (
+              <div className={styles.subscriptions}>
+                {data.subscriptions.length === 0 ? (
+                  <div className={styles.emptyState}>
+                    <div className={styles.emptyIcon}><FaSync /></div>
+                    <h3 className={styles.emptyTitle}>No subscriptions yet</h3>
+                    <p className={styles.emptyText}>
+                      Set up a monthly subscription to make a sustained impact on our community.
+                    </p>
+                    <a href="/donate" className={styles.donateButton}>
+                      Start Monthly Donation
+                    </a>
+                  </div>
+                ) : (
+                  <div className={styles.subscriptionsList}>
+                    {data.subscriptions.map((subscription) => (
+                      <div key={subscription.id} className={styles.subscriptionCard}>
+                        <div className={styles.subscriptionHeader}>
+                          <h4 className={styles.subscriptionTitle}>
+                            Monthly Donation - {formatCurrency(subscription.amount)}
+                          </h4>
+                          <span className={`${styles.statusBadge} ${styles[(subscription as any).status]}`}>
+                            {(subscription as any).status}
+                          </span>
+                        </div>
+                        <div className={styles.subscriptionDetails}>
+                          <div className={styles.subscriptionMeta}>
+                            <strong>Subscription ID:</strong> {subscription.razorpay_subscription_id}
+                          </div>
+                          <div className={styles.subscriptionMeta}>
+                            <strong>Started:</strong> {formatDate(subscription.created_at)}
+                          </div>
+                          {subscription.charge_at_date && (
+                            <div className={styles.subscriptionMeta}>
+                              <strong>Next Payment:</strong> {formatDate(subscription.charge_at_date)}
+                            </div>
+                          )}
+                        </div>
+                        
+                        <div className={styles.subscriptionActions}>
+                          {['active', 'authenticated', 'activated'].includes((subscription as any).status?.toLowerCase()) && (
+                            <>
+                              <button 
+                                className={`${styles.manageButton} ${styles.pauseButton}`}
+                                onClick={() => confirmAction(subscription.razorpay_subscription_id, 'pause')}
+                                disabled={managingSubscription === subscription.razorpay_subscription_id}
+                              >
+                                <FaPause /> {managingSubscription === subscription.razorpay_subscription_id ? 'Processing...' : 'Pause Subscription'}
+                              </button>
+                              <button 
+                                className={`${styles.manageButton} ${styles.deleteButton}`}
+                                onClick={() => confirmAction(subscription.razorpay_subscription_id, 'cancel')}
+                                disabled={managingSubscription === subscription.razorpay_subscription_id}
+                              >
+                                <FaTimes /> {managingSubscription === subscription.razorpay_subscription_id ? 'Cancelling...' : 'Cancel Subscription'}
+                              </button>
+                            </>
+                          )}
+                          
+                          {(subscription as any).status?.toLowerCase() === 'paused' && (
+                            <>
+                              <button 
+                                className={`${styles.manageButton} ${styles.resumeButton}`}
+                                onClick={() => confirmAction(subscription.razorpay_subscription_id, 'resume')}
+                                disabled={managingSubscription === subscription.razorpay_subscription_id}
+                              >
+                                <FaPlay /> {managingSubscription === subscription.razorpay_subscription_id ? 'Processing...' : 'Resume Subscription'}
+                              </button>
+                              <button 
+                                className={`${styles.manageButton} ${styles.deleteButton}`}
+                                onClick={() => confirmAction(subscription.razorpay_subscription_id, 'cancel')}
+                                disabled={managingSubscription === subscription.razorpay_subscription_id}
+                              >
+                                <FaTimes /> {managingSubscription === subscription.razorpay_subscription_id ? 'Cancelling...' : 'Cancel Subscription'}
+                              </button>
+                            </>
+                          )}
+                          
+                          {['cancelled', 'canceled'].includes((subscription as any).status?.toLowerCase()) && (
+                            <p className={styles.cancelledNote}>
+                              <FaTimes /> This subscription has been cancelled. <a href="/donate">Start a new subscription</a>
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
           </div>
-        )}
-      </div>
         </div>
       </div>
     </div>

@@ -1,24 +1,25 @@
 import VolunteerForm from '@/components/VolunteerForm';
 import styles from './page.module.css';
+import { FaHeart, FaSeedling, FaBullseye, FaTrophy } from 'react-icons/fa';
 
 const volunteerBenefits = [
   {
-    icon: '💝',
+    icon: <FaHeart />,
     title: 'Make real impact',
     description: 'Support neighbourhood initiatives that directly uplift families across Dwarka Mor and nearby communities.',
   },
   {
-    icon: '🌱',
+    icon: <FaSeedling />,
     title: 'Grow with purpose',
     description: 'Build new skills, learn from experienced mentors, and collaborate with people who care as much as you do.',
   },
   {
-    icon: '🎯',
+    icon: <FaBullseye />,
     title: 'Flexible commitment',
     description: 'Choose opportunities that fit your availability—weekends, evenings, or special events—we make it work.',
   },
   {
-    icon: '🏆',
+    icon: <FaTrophy />,
     title: 'Earn recognition',
     description: 'Receive certificates, recommendations, and shout-outs that highlight your contribution to lasting change.',
   },

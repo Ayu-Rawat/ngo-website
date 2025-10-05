@@ -455,9 +455,7 @@ const DonationForm = () => {
             required
           />
         </div>
-        
-        <div className={styles.inputRow}>
-          <div className={styles.inputGroup}>
+        <div className={styles.inputGroup}>
             <label className={styles.inputGroupLabel}>
               Phone Number *
             </label>
@@ -469,8 +467,7 @@ const DonationForm = () => {
               placeholder="Enter your phone number"
               required={true}
             />
-          </div>
-        </div>
+        </div>        
       </div>
 
       {/* Donation Button */}

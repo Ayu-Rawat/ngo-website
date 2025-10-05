@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './DonationForm.module.css';
 
 // Extend Window interface to include Razorpay
@@ -12,8 +12,13 @@ declare global {
 
 interface DonorDetails {
   name: string;
+  phone: string;
+}
+
+interface User {
+  id: string;
+  name: string;
   email: string;
-  phone?: string;
 }
 
 type DonationType = 'one-time' | 'monthly';
@@ -24,14 +29,39 @@ const DonationForm = () => {
   const [customAmount, setCustomAmount] = useState<string>('');
   const [donorDetails, setDonorDetails] = useState<DonorDetails>({
     name: '',
-    email: '',
     phone: '',
   });
   const [loading, setLoading] = useState<boolean>(false);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
   const [subscriptionDetails, setSubscriptionDetails] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   const predefinedAmounts = [100, 500, 1000, 2000, 5000];
+
+  // Fetch current user session on component mount
+  useEffect(() => {
+    const fetchUserSession = async () => {
+      try {
+        const response = await fetch('/api/user/session');
+        if (response.ok) {
+          const userData = await response.json();
+          if (userData.user) {
+            setUser(userData.user);
+            // Pre-fill donor details with user information
+            setDonorDetails({
+              name: userData.user.name || '',
+              phone: '',
+            });
+          }
+        }
+      } catch (error) {
+        console.log('No user session found or error fetching user:', error);
+        // This is fine - user is not logged in
+      }
+    };
+
+    fetchUserSession();
+  }, []);
 
   const handleAmountSelect = (selectedAmount: number) => {
     setAmount(selectedAmount.toString());
@@ -58,7 +88,7 @@ const DonationForm = () => {
         body: JSON.stringify({
           amount: finalAmount,
           donorName: donorDetails.name,
-          donorEmail: donorDetails.email,
+          donorEmail: user?.email,
         }),
       });
 
@@ -74,7 +104,7 @@ const DonationForm = () => {
         amount: order.amount,
         currency: 'INR',
         name: 'Connect I Network',
-        description: 'One-time Donation for NGO - Making a Difference',
+        description: 'One-time Donation for Connect I Network NGO',
         image: '/favicon.ico',
         order_id: order.id,
         method: {
@@ -87,7 +117,7 @@ const DonationForm = () => {
         },
         prefill: {
           name: donorDetails.name,
-          email: donorDetails.email,
+          email: user?.email,
           contact: donorDetails.phone,
         },
         notes: {
@@ -110,6 +140,7 @@ const DonationForm = () => {
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature,
                 donorDetails,
+                payment_method: response.method || 'unknown',
               }),
             });
 
@@ -169,14 +200,16 @@ const DonationForm = () => {
         },
         body: JSON.stringify({
           planId: plan.id,
-          customerEmail: donorDetails.email,
+          customerEmail: user?.email,
           customerName: donorDetails.name,
           customerPhone: donorDetails.phone,
+          amount: finalAmount, // Add amount for database storage
         }),
       });
 
       if (!subscriptionResponse.ok) {
-        throw new Error('Failed to create subscription');
+        const errorData = await subscriptionResponse.json();
+        throw new Error(errorData.error || 'Failed to create subscription');
       }
 
       const subscription = await subscriptionResponse.json();
@@ -198,7 +231,7 @@ const DonationForm = () => {
         },
         prefill: {
           name: donorDetails.name,
-          email: donorDetails.email,
+          email: user?.email,
           contact: donorDetails.phone,
         },
         theme: {
@@ -231,7 +264,8 @@ const DonationForm = () => {
   const resetForm = () => {
     setAmount('');
     setCustomAmount('');
-    setDonorDetails({ name: '', email: '', phone: '' });
+    setDonorDetails({ name: '', phone: '' });
+    setLoading(false);
   };
 
   const handlePayment = async () => {
@@ -243,20 +277,16 @@ const DonationForm = () => {
       return;
     }
 
+    // Check if user is logged in
+    if (!user) {
+      if (confirm('You need to be logged in to make a donation. Would you like to log in now?')) {
+        window.location.href = '/login';
+      }
+      return;
+    }
+
     if (!donorDetails.name.trim()) {
       alert('Please enter your name');
-      return;
-    }
-
-    if (!donorDetails.email.trim()) {
-      alert('Please enter your email');
-      return;
-    }
-
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(donorDetails.email)) {
-      alert('Please enter a valid email address');
       return;
     }
 
@@ -268,9 +298,16 @@ const DonationForm = () => {
       } else {
         await handleMonthlySubscription(finalAmount);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Payment error:', error);
-      alert('Failed to process payment. Please try again.');
+      
+      let errorMessage = 'Failed to process payment. Please try again.';
+      
+      if (error.message) {
+        errorMessage = error.message;
+      }
+      
+      alert(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -325,7 +362,6 @@ const DonationForm = () => {
 
   return (
     <div className={styles.container}>
-
       {/* Donation Type Selection */}
       <div className={styles.donationTypeSection}>
         <label className={styles.label}>Choose Donation Type</label>
@@ -400,6 +436,12 @@ const DonationForm = () => {
 
       {/* Donor Details */}
       <div className={styles.detailsSection}>
+        {user && (
+          <div className={styles.userNote}>
+            <span className={styles.userIcon}>👤</span>
+            <span>Welcome back, {user.name}! Your details have been pre-filled.</span>
+          </div>
+        )}
         <div className={styles.inputGroup}>
           <label className={styles.inputGroupLabel}>
             Full Name *
@@ -417,21 +459,7 @@ const DonationForm = () => {
         <div className={styles.inputRow}>
           <div className={styles.inputGroup}>
             <label className={styles.inputGroupLabel}>
-              Email Address *
-            </label>
-            <input
-              type="email"
-              value={donorDetails.email}
-              onChange={(e) => setDonorDetails({ ...donorDetails, email: e.target.value })}
-              className={styles.textInput}
-              placeholder="Enter your email"
-              required
-            />
-          </div>
-          
-          <div className={styles.inputGroup}>
-            <label className={styles.inputGroupLabel}>
-              Phone Number {donationType === 'monthly' ? '*' : '(Optional)'}
+              Phone Number *
             </label>
             <input
               type="tel"
@@ -439,7 +467,7 @@ const DonationForm = () => {
               onChange={(e) => setDonorDetails({ ...donorDetails, phone: e.target.value })}
               className={styles.textInput}
               placeholder="Enter your phone number"
-              required={donationType === 'monthly'}
+              required={true}
             />
           </div>
         </div>
@@ -451,8 +479,7 @@ const DonationForm = () => {
         disabled={
           !getFinalAmount() || 
           !donorDetails.name || 
-          !donorDetails.email || 
-          (donationType === 'monthly' && !donorDetails.phone) ||
+          !donorDetails.phone ||
           loading
         }
         className={styles.donateButton}

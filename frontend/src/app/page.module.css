@@ -68,25 +68,30 @@
 
 @media (max-width: 776px) {
   .bg {
-    height: 55vh;
-    bottom: 20px;
+    height: 70vh;
+    bottom: 0;
     top: unset;
     left: 50%;
     width: 100vw;
-    height: 55vh;
     transform: translate(-50%, 0);
+  }
+}
+
+@media (max-width: 480px) {
+  .bg {
+    height: 65vh;
   }
 }
 
 @media (max-width: 768px) {
   .imageContainer {
-    min-width: 200px;
+    min-width: 250px;
   }
 }
 
 @media (max-width: 480px) {
   .imageContainer {
-    min-width: 150px;
+    min-width: 200px;
   }
 }
 
@@ -98,13 +103,13 @@
 
 @media (max-width: 768px) {
   .ov1, .ov2 {
-    gap: clamp(50px, 15vw, 150px);
+    gap: clamp(40px, 12vw, 120px);
   }
 }
 
 @media (max-width: 480px) {
   .ov1, .ov2 {
-    gap: clamp(30px, 10vw, 80px);
+    gap: clamp(25px, 8vw, 60px);
   }
 }
 
@@ -132,35 +137,28 @@
   padding: 20px;
   width: 100%;
   max-width: 1200px;
+}
 
+@media (max-width: 1024px) {
+  .textContainer {
+    max-width: 95%;
+  }
 }
 
 @media (max-width: 776px) {
   .textContainer {
-    position: absolute;
-    top: 20px;
-    left: 50%;
+    top: 15%;
     transform: translateX(-50%);
-    text-align: left;
-    color: black;
-    z-index: 5;
     padding: 20px;
-    width: 100%;
-    max-width: 1200px;
-
-  }
-}
-
-@media (max-width: 768px) {
-  .textContainer {
-    padding: 15px;
     max-width: 90%;
   }
 }
 
 @media (max-width: 480px) {
   .textContainer {
-    padding: 10px;
+    top: 12%;
+    padding: 15px;
+    max-width: 92%;
   }
 }
 
@@ -192,27 +190,31 @@
   font-size: 24px;
   margin-bottom: 20px;
   font-weight: 500;
-  line-height: 1.4;
+  line-height: 1.5;
+  max-width: 700px;
 }
 
 @media (max-width: 1024px) {
   .description {
     font-size: 20px;
+    max-width: 600px;
   }
 }
 
 @media (max-width: 768px) {
   .description {
-    font-size: 16px;
-    margin-bottom: 15px;
+    font-size: 18px;
+    margin-bottom: 18px;
+    line-height: 1.6;
+    max-width: 100%;
   }
 }
 
 @media (max-width: 480px) {
   .description {
-    font-size: 14px;
-    margin-bottom: 12px;
-    line-height: 1.5;
+    font-size: 15px;
+    margin-bottom: 15px;
+    line-height: 1.6;
   }
 }
 

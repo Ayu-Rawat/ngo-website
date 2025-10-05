@@ -482,11 +482,11 @@
   background: rgba(60, 140, 95, 1);
 }
 
-.cancelButton {
+.deleteButton {
   background: #ef4444;
 }
 
-.cancelButton:hover:not(:disabled) {
+.deleteButton:hover:not(:disabled) {
   background: #dc2626;
 }
 

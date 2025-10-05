@@ -261,6 +261,7 @@
   h1 {
     width: calc(100% - 40px);
     max-width: 1000px;
+    font-weight: 700;
     font-size: clamp(1.6rem, 4vw, 3rem);
   }
 }
@@ -414,5 +415,357 @@
   
   .programCardDescription {
     font-size: 0.9rem;
+  }
+}
+
+.testimonialsHeader {
+  text-align: center;
+  margin: 80px 0 50px 0;
+  padding: 0 20px;
+}
+
+@media (max-width: 768px) {
+  .testimonialsHeader {
+    margin: 60px 0 40px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .testimonialsHeader {
+    margin: 40px 0 30px 0;
+  }
+}
+
+.testimonialsTitle {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #1a1a1a;
+}
+
+.testimonialsDescription {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  color: #666;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.faqSection {
+  width: calc(100% - 40px);
+  max-width: 1200px;
+  min-height: 80vh;
+  margin: 80px 0;
+  padding: 48px;
+  gap: 50px;
+  background-image: radial-gradient(ellipse 80% 80% at 50% 50%, rgba(200, 255, 118, 0.3), rgba(150, 220, 100, 0.1) 50%, transparent 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 32px;
+}
+
+.leftFaq {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.faqTitle {
+  font-size: clamp(5rem, 5vw, 8rem);
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #1a1a1a;
+  line-height: .9;
+  position: relative;
+}
+
+.faqDescription {
+  margin: 2px 0;
+  max-width: 300px;
+}
+
+.rightFaq {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 10px;
+  flex: 1;
+  height: fit-content;
+}
+
+.faqItem {
+  height: fit-content;
+  border: 1px solid #e1e1e19b;
+  border-radius: 10px;
+  background: #ffffff56;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.faqItem[open] {
+  border-color: #5cb07d;
+  box-shadow: 0 10px 24px rgba(92, 176, 125, 0.14);
+  transform: translateY(-1px);
+}
+
+.faqQuestion {
+  position: relative;
+  cursor: pointer;
+  padding: 12px 36px 12px 16px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #1a1a1a;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  list-style: none;
+}
+
+.faqQuestion::-webkit-details-marker {
+  display: none;
+}
+
+.faqQuestion::marker {
+  display: none;
+}
+
+.faqQuestion::after {
+  content: '';
+  position: absolute;
+  right: 16px;
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform 0.2s ease;
+}
+
+.faqItem[open] .faqQuestion::after {
+  transform: rotate(45deg);
+}
+
+.faqAnswer {
+  padding: 0 16px 14px 16px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #4a4a4a;
+}
+
+.faqAnswer a {
+  color: #4a9f6f;
+  text-decoration: underline;
+}
+
+@media (max-width: 1024px) {
+  .faqSection {
+    min-height: unset;
+    padding: 40px;
+    gap: 32px;
+  }
+
+  .leftFaq {
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
+@media (max-width: 768px) {
+  .faqSection {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 32px 24px;
+    gap: 24px;
+    border-radius: 24px;
+  }
+
+  .faqTitle {
+    font-size: clamp(3.5rem, 9vw, 5rem);
+  }
+
+  .faqDescription {
+    max-width: 100%;
+  }
+
+  .faqQuestion {
+    padding: 12px 32px 12px 16px;
+  }
+
+  .faqAnswer {
+    padding: 0 16px 14px 16px;
+  }
+
+  .rightFaq {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .faqSection {
+    width: calc(100% - 20px);
+    padding: 24px 16px;
+    margin: 60px 0;
+  }
+
+  .faqTitle {
+    font-size: clamp(2.5rem, 12vw, 3.5rem);
+  }
+
+  .faqQuestion {
+    font-size: 0.85rem;
+    padding: 10px 28px 10px 14px;
+  }
+
+  .faqAnswer {
+    font-size: 0.8rem;
+  }
+}
+
+.ctaSection {
+  width: calc(100% - 40px);
+  max-width: 1200px;
+  margin: 80px 0;
+  padding: 45px;
+  border-radius: 16px;
+  text-align: left;
+  border: 1px solid #a4a4a4;
+}
+
+@media (max-width: 768px) {
+  .ctaSection {
+    padding: 25px
+  }
+}
+
+.ctaTitle {
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  font-weight: 700;
+  margin-bottom: 0px;
+  color: #1a1a1a;
+
+}
+.ctaButtonContainer {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+  width: 100%;
+}
+
+.ctaButtonBig {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 32px 34px;
+  min-height: 160px;
+  border-radius: 22px;
+  background: #ffffff8c;
+  border: 2px solid rgba(92, 176, 125, 0.35);
+  color: #0f1d14;
+  text-decoration: none;
+  font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+  font-weight: 600;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+  text-align: left;
+}
+
+.ctaButtonContainer .ctaButtonBig:first-of-type {
+  background: #77ff807d;
+  border-color: #3e8a5a97;
+  color: #000000;
+}
+
+.ctaButtonContainer .ctaButtonBig:first-of-type .ctaButtonIcon {
+  background: rgba(65, 65, 65, 0.18);
+  border-color: rgba(45, 45, 45, 0.45);
+}
+
+.ctaButtonContainer .ctaButtonBig:first-of-type .icon {
+  color: #233a22;
+}
+
+.ctaButtonContainer .ctaButtonBig:first-of-type:hover {
+  border-color: #367a50;
+}
+
+.ctaButtonContainer .ctaButtonBig:first-of-type:active {
+  border-color: #2f6a46;
+}
+
+.ctaButtonIcon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  padding: 16px;
+  border-radius: 20px;
+  background: rgba(92, 176, 125, 0.12);
+  border: 2px solid rgba(92, 176, 125, 0.4);
+}
+
+.ctaButtonBig .icon {
+  font-size: 2.2rem;
+  color: #4a9f6f;
+}
+
+.ctaButtonBig:hover {
+  transform: translateY(-6px);
+  border-color: rgba(92, 176, 125, 0.6);
+}
+
+.ctaButtonBig:active {
+  transform: translateY(-2px);
+  border-color: rgba(92, 176, 125, 0.5);
+}
+
+@media (max-width: 768px) {
+  .ctaButtonContainer {
+    flex-direction: column;
+  }
+
+  .ctaButtonBig {
+    padding: 26px 28px;
+    min-height: 150px;
+    gap: 18px;
+  }
+
+  .ctaButtonIcon {
+    width: 64px;
+    height: 64px;
+    padding: 14px;
+  }
+
+  .ctaButtonContainer .ctaButtonBig:first-of-type .ctaButtonIcon {
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+@media (max-width: 480px) {
+  .ctaButtonBig {
+    gap: 16px;
+    padding: 22px;
+    min-height: 140px;
+    font-size: 1rem;
+  }
+
+  .ctaButtonIcon {
+    width: 56px;
+    height: 56px;
+    padding: 12px;
+  }
+
+  .ctaButtonContainer .ctaButtonBig:first-of-type .ctaButtonIcon {
+    background: rgba(255, 255, 255, 0.22);
+  }
+
+  .ctaButtonBig .icon {
+    font-size: 1.8rem;
   }
 }

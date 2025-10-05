@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { FaCheckCircle, FaCreditCard, FaInfoCircle, FaSyncAlt, FaUser } from 'react-icons/fa';
 import styles from './DonationForm.module.css';
 
 // Extend Window interface to include Razorpay
@@ -317,7 +318,7 @@ const DonationForm = () => {
     return (
       <div className={styles.successContainer}>
         <div className={styles.successContent}>
-          <div className={styles.successIcon}>✓</div>
+          <FaCheckCircle aria-hidden="true" className={styles.successIcon} />
           <h2 className={styles.successTitle}>
             Thank You for Your {donationType === 'monthly' ? 'Monthly ' : ''}Donation!
           </h2>
@@ -372,7 +373,7 @@ const DonationForm = () => {
               donationType === 'one-time' ? styles.donationTypeButtonSelected : ''
             }`}
           >
-            <span className={styles.donationTypeIcon}>💳</span>
+            <FaCreditCard aria-hidden="true" className={styles.donationTypeIcon} />
             <div>
               <div className={styles.donationTypeTitle}>One-time</div>
               {/* <div className={styles.donationTypeDesc}>Make a single donation</div> */}
@@ -384,7 +385,7 @@ const DonationForm = () => {
               donationType === 'monthly' ? styles.donationTypeButtonSelected : ''
             }`}
           >
-            <span className={styles.donationTypeIcon}>🔄</span>
+            <FaSyncAlt aria-hidden="true" className={styles.donationTypeIcon} />
             <div>
               <div className={styles.donationTypeTitle}>Monthly</div>
               {/* <div className={styles.donationTypeDesc}>Recurring monthly donation</div> */}
@@ -393,7 +394,7 @@ const DonationForm = () => {
         </div>
         {donationType === 'monthly' && (
           <div className={styles.monthlyNote}>
-            <span className={styles.monthlyNoteIcon}>ℹ️</span>
+            <FaInfoCircle aria-hidden="true" className={styles.monthlyNoteIcon} />
             Monthly donations provide sustained support and can be cancelled anytime.
           </div>
         )}
@@ -438,7 +439,7 @@ const DonationForm = () => {
       <div className={styles.detailsSection}>
         {user && (
           <div className={styles.userNote}>
-            <span className={styles.userIcon}>👤</span>
+            <FaUser aria-hidden="true" className={styles.userIcon} />
             <span>Welcome back, {user.name}! Your details have been pre-filled.</span>
           </div>
         )}

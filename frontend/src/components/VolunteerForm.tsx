@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { FaCheckCircle } from 'react-icons/fa';
 import styles from './VolunteerForm.module.css';
 
 interface VolunteerFormData {
@@ -102,7 +103,7 @@ const VolunteerForm = () => {
     return (
       <div className={styles.successContainer}>
         <div className={styles.successContent}>
-          <div className={styles.successIcon}>✓</div>
+          <FaCheckCircle aria-hidden="true" className={styles.successIcon} />
           <h2 className={styles.successTitle}>Thank you for stepping up!</h2>
           <p className={styles.successMessage}>
             Your volunteer application is in. Our team will review it and connect with you within 2-3 business days to share the next steps.

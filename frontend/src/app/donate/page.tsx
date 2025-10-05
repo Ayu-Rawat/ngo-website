@@ -1,4 +1,5 @@
 import DonationForm from '@/components/DonationForm';
+import { FaBookOpen, FaUtensils, FaHeartbeat, FaTools } from 'react-icons/fa';
 import styles from './page.module.css';
 
 export default function Donate() {
@@ -46,7 +47,7 @@ export default function Donate() {
               <div className={styles.impactGrid}>
                 <div className={styles.impactItem}>
                   <div className={styles.iconContainer}>
-                    <span className={styles.icon}>📚</span>
+                    <FaBookOpen aria-hidden="true" className={styles.icon} />
                   </div>
                   <div className={styles.impactContent}>
                     <h3 className={styles.impactTitle}>Education Support</h3>
@@ -58,7 +59,7 @@ export default function Donate() {
                 
                 <div className={styles.impactItem}>
                   <div className={styles.iconContainer}>
-                    <span className={styles.icon}>🍽️</span>
+                    <FaUtensils aria-hidden="true" className={styles.icon} />
                   </div>
                   <div className={styles.impactContent}>
                     <h3 className={styles.impactTitle}>Meal Programs</h3>
@@ -70,7 +71,7 @@ export default function Donate() {
                 
                 <div className={styles.impactItem}>
                   <div className={styles.iconContainer}>
-                    <span className={styles.icon}>🏥</span>
+                    <FaHeartbeat aria-hidden="true" className={styles.icon} />
                   </div>
                   <div className={styles.impactContent}>
                     <h3 className={styles.impactTitle}>Healthcare</h3>
@@ -82,7 +83,7 @@ export default function Donate() {
                 
                 <div className={styles.impactItem}>
                   <div className={styles.iconContainer}>
-                    <span className={styles.icon}>🛠️</span>
+                    <FaTools aria-hidden="true" className={styles.icon} />
                   </div>
                   <div className={styles.impactContent}>
                     <h3 className={styles.impactTitle}>Skill Development</h3>

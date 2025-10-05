@@ -2,6 +2,7 @@ import Link from 'next/link';
 import styles from './page.module.css'
 import testimonialsStyles from './testimonials.module.css'
 import Image from 'next/image';
+import { FaHandsHelping, FaHeart } from 'react-icons/fa';
 
 const testimonialText = [
   {
@@ -126,6 +127,68 @@ const testimonialText = [
   }
 ]
 
+const faq = [
+  {
+    question: "What is Change I Network (CIN)?",
+    answer:
+      "Change I Network (CIN) is a non-governmental organization (NGO) founded by a group of professionals committed to bringing positive change in society. It focuses on empowering underprivileged children, youth, women, and the elderly through education, health, environmental, and social initiatives."
+  },
+  {
+    question: "What are the main programs run by CIN?",
+    answer: `
+      CIN runs four major initiatives across India:<br/><br/>
+      <strong>Paatshaala (Learning Today, Leading Tomorrow)</strong> – Focused on promoting education for children from economically weaker sections.<br/>
+      <strong>Paryavaran (My Locality, I Care)</strong> – Encourages civic responsibility and environmental awareness through cleanliness drives.<br/>
+      <strong>Perfect Health</strong> – Conducts health camps, blood donation drives, and awareness programs.<br/>
+      <strong>Pahal (An Initiative)</strong> – A platform for special projects like orphanage support, voter drives, and street plays on social issues.
+    `
+  },
+  {
+    question: "How can I contribute or volunteer for Change I Network?",
+    answer:
+      "You can contribute by donating, volunteering in any of our programs, or collaborating with us for events and awareness drives. To donate, please visit our official <a href='/donate' target='_blank' rel='noopener noreferrer'>Donate</a> page on the website."
+  },
+  {
+    question: "How does CIN ensure transparency in donations?",
+    answer:
+      "All contributions are used solely for CIN’s registered social welfare programs. Detailed expenditure reports and updates are shared with donors upon request or during our annual review meets."
+  },
+  {
+    question: "Where is Change I Network located?",
+    answer:
+      "Our head office is located at S-4, Manish Chamber II, Plot 6 LSC, Second Floor, Sector-12, Dwarka, New Delhi – 110078."
+  },
+  {
+    question: "What impact has CIN made so far?",
+    answer:
+      "Over 50+ children have been enrolled in formal schools under Paatshaala. Multiple health and blood donation camps have been organized under Perfect Health. Cleanliness and awareness drives have been conducted across Delhi and nearby regions. Street plays and voter awareness programs have been run under the Pahal initiative."
+  },
+  {
+    question: "I want to raise funds for CIN’s medical or social cause. How can I start?",
+    answer:
+      "You can start a fundraiser by reaching out to our official support team at <a href='mailto:info@changeinetwork.org'>info@changeinetwork.org</a> or connecting with us on <a href='https://facebook.com/changeinetwork' target='_blank' rel='noopener noreferrer'>Facebook</a>. Our team will guide you through the process."
+  },
+  {
+    question: "I don’t see a specific cause listed. Can I still start a campaign?",
+    answer:
+      "Yes. CIN welcomes unique social and community causes that align with our mission. Contact us to discuss your idea, and we’ll help set it up."
+  },
+  {
+    question: "How do I get regular updates on CIN’s work?",
+    answer: `
+      Follow us on our social media channels:<br/><br/>
+      <strong>Facebook:</strong> <a href='https://facebook.com/changeinetwork' target='_blank' rel='noopener noreferrer'>facebook.com/changeinetwork</a><br/>
+      <strong>Twitter:</strong> <a href='https://twitter.com/changeinetwork' target='_blank' rel='noopener noreferrer'>twitter.com/changeinetwork</a><br/>
+      <strong>Website:</strong> <a href='https://www.changeinetwork.org' target='_blank' rel='noopener noreferrer'>www.changeinetwork.org</a>
+    `
+  },
+  {
+    question: "I have more questions. Who do I contact?",
+    answer:
+      "You can write to us at <a href='mailto:info@changeinetwork.org'>info@changeinetwork.org</a> or call us at <a href='tel:+918745082888'>+91 8745082888</a>. Our team will be happy to assist you."
+  }
+];
+
 export default function Home() {
   return (
     <main className={styles.main}>
@@ -231,6 +294,10 @@ Paatshaala strives to make the Right to Education a reality for children from ec
           </div>
         </div>
       </div>
+      <div className={styles.testimonialsHeader}>
+        <h2 className={styles.testimonialsTitle}>What people are saying</h2>
+        <p className={styles.testimonialsDescription}>Real stories from the people we've touched and the volunteers who make it happen</p>
+      </div>
       <div className={testimonialsStyles.testimonialsContainer}>
         <div className={testimonialsStyles.testimonialsScroll}>
           {[...testimonialText, ...testimonialText].map((t, idx) => (
@@ -251,6 +318,50 @@ Paatshaala strives to make the Right to Education a reality for children from ec
               <div className={testimonialsStyles.role}>{t.role}</div>
             </figure>
           ))}
+        </div>
+      </div>
+      <div className={styles.faqSection}>
+        <div className={styles.leftFaq}>
+          <h2 className={styles.faqTitle}>FAQ</h2>
+          <p className={styles.faqDescription}>Answers to common questions about Change I Network and our work</p>
+        </div>
+        <div className={styles.rightFaq}>
+          {faq.map((item, idx) => (
+            <details key={idx} className={styles.faqItem}>
+              <summary className={styles.faqQuestion}>
+                <span>{item.question}</span>
+              </summary>
+              <div
+                className={styles.faqAnswer}
+                dangerouslySetInnerHTML={{ __html: item.answer }}
+              />
+            </details>
+          ))}
+        </div>
+      </div>
+      <div style={{
+      backgroundImage: `
+        linear-gradient(90deg, rgba(16,185,129,0.25) 1px, transparent 0),
+        linear-gradient(180deg, rgba(16,185,129,0.25) 1px, transparent 0),
+        repeating-linear-gradient(45deg, rgba(16,185,129,0.2) 0 2px, transparent 2px 6px)
+      `,
+      backgroundSize: "24px 24px, 24px 24px, 24px 24px",
+      }}className={styles.ctaSection}>
+        <h2 className={styles.ctaTitle}>Ready to make a difference?</h2>
+        <p className={styles.ctaDescription}>Join us in empowering communities and creating lasting change. Your support matters.</p>
+        <div className={styles.ctaButtonContainer}>
+          <Link href="/donate" className={styles.ctaButtonBig}>
+            <div className={styles.ctaButtonIcon}>
+              <FaHeart aria-hidden="true" className={styles.icon} />
+            </div>
+            Donate Now
+          </Link>
+          <Link href="/volunteer" className={styles.ctaButtonBig}>
+            <div className={styles.ctaButtonIcon}>
+              <FaHandsHelping aria-hidden="true" className={styles.icon} />
+            </div>
+            Volunteer
+          </Link>
         </div>
       </div>
     </main>

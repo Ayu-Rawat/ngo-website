@@ -172,7 +172,6 @@ export default function Navbar({ user }: NavbarProps) {
                     <ul className={`${styles.navLinks} ${menuOpen ? styles.navLinksOpen : ''}`}>
                         <NavLink href="/about">About</NavLink>
                         <NavLink href="/volunteer">Volunteer</NavLink>
-                        <NavLink href="/photo-gallery">Photo Gallery</NavLink>
                         {user && <NavLink href="/dashboard">Dashboard</NavLink>}
                         <div className={styles.desktopCta}>
                             <NavLink href="/donate" variant="cta">Donate</NavLink>

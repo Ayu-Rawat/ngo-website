@@ -1,8 +1,6 @@
 # Connect I Network - NGO Website
 
-<div align="center">
-  <img src="https://res.cloudinary.com/dqvwf3z2c/image/upload/v1759745269/737shots_so_uolta9.png" alt="Connect I Network Homepage" width="800"/>
-</div>
+![Home Page Screenshot](https://res.cloudinary.com/dqvwf3z2c/image/upload/v1759746808/737shots_so_kpbjen.png)
 
 <div align="center">
   <h3>Empowering Communities • Creating Impact • Building Connections</h3>
@@ -104,15 +102,7 @@ Connect-I-Network/
 │   │   ├── lib/              # Utilities & Config
 │   │   └── styles/           # Global Styles
 │   ├── package.json
-│   └── next.config.js
-│
-├── backend/                     # Express.js API (Legacy)
-│   ├── src/
-│   │   ├── controllers/
-│   │   ├── routes/
-│   │   └── utils/
-│   └── package.json
-│
+│   └── next.config.js│
 └── README.md
 ```
 
@@ -121,8 +111,8 @@ Connect-I-Network/
 ## 🚀 Getting Started
 
 ### Prerequisites
-- **Node.js** (v18 or higher recommended)
-- **npm** (Package manager - recommended)
+- **Node.js** (v22 or higher recommended)
+- **pnpm** (Package manager - recommended)
 - **Git** for version control
 
 ### 📥 Installation
@@ -136,7 +126,7 @@ Connect-I-Network/
 2. **Install dependencies**
    ```bash
    cd frontend
-   npm install
+   pnpm install
    ```
 
 3. **Set up environment variables**

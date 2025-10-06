@@ -321,6 +321,7 @@
   color: rgba(92, 176, 125, 1);
   font-size: 60px;
   margin-bottom: 0.75rem;
+  width: 100%;
 }
 
 .successTitle {

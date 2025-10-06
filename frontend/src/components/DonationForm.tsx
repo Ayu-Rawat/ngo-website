@@ -36,7 +36,7 @@ const DonationForm = () => {
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
   const [subscriptionDetails, setSubscriptionDetails] = useState<any>(null);
   const [user, setUser] = useState<User | null>(null);
-
+  const [lastAmount, setLastAmount] = useState<number | null>(null);
   const predefinedAmounts = [100, 500, 1000, 2000, 5000];
 
   // Fetch current user session on component mount
@@ -63,6 +63,10 @@ const DonationForm = () => {
 
     fetchUserSession();
   }, []);
+
+  useEffect(() => {
+    console.log("Amount Changed:", amount, customAmount);
+  }, [amount, customAmount]);
 
   const handleAmountSelect = (selectedAmount: number) => {
     setAmount(selectedAmount.toString());
@@ -149,6 +153,7 @@ const DonationForm = () => {
 
             if (result.success) {
               setShowSuccess(true);
+              setLastAmount(finalAmount);
               resetForm();
             } else {
               alert('Payment verification failed. Please contact support.');
@@ -331,7 +336,7 @@ const DonationForm = () => {
               </>
             ) : (
               <>
-                Your generous contribution of ₹{getFinalAmount()} will help us make a real difference in the community.
+                Your generous contribution of ₹{lastAmount} will help us make a real difference in the community.
               </>
             )}
           </p>
